@@ -23,6 +23,7 @@ then
 		update( $bc );
 	}
 	insert( new BadgeNotification($gameId,$playerId,'1st_of_the_week'));
+	insert( new BadgeUpdate("1st_of_the_week", "leaderboard top 3"));	
 	$pc.setScore($pc.getScore() + 100);
     update($pc);
     insert(new PointDelta(100,"green leaves")); 
@@ -44,6 +45,7 @@ then
 		update( $bc );
 	}
 	insert( new BadgeNotification($gameId,$playerId,'2nd_of_the_week'));
+	insert( new BadgeUpdate("2nd_of_the_week", "leaderboard top 3"));	
 	$pc.setScore($pc.getScore() + 80);
     update($pc);
     insert(new PointDelta(80,"green leaves")); 
@@ -65,6 +67,7 @@ then
 		update( $bc );
 	}
 	insert( new BadgeNotification($gameId,$playerId,'3rd_of_the_week'));
+	insert( new BadgeUpdate("3rd_of_the_week", "leaderboard top 3"));	
 	$pc.setScore($pc.getScore() + 60);
     update($pc);
     insert(new PointDelta(60,"green leaves")); 
