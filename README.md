@@ -15,3 +15,7 @@ This project is a [Drools](https://github.com/droolsjbpm/drools) project and can
 
 1. Clone repository with git
 2. Compile with maven using mvn install
+
+## License
+
+Project is licensed under the Apache License Version 2.0
