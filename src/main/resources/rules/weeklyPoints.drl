@@ -1,5 +1,6 @@
 package eu.trentorise.game.model
 
+// All Timestamps in Time Zone "Europe/Berlin"
 // start week2: 1461362460000 -> 23/04 00:01
 // start week3: 1461967260000 -> 30/04 00:01
 // start week4: 1462572060000 -> 07/05 00:01 
@@ -18,7 +19,7 @@ when
 	$pc : PointConcept(name == "green leaves week 2")
 	$pd : PointDelta(this.pointType == "green leaves", $delta : this.delta)
 then
-	log("Now: " + $now + " scarico punti delta week 3 =  1461362460000 to 1461967260000");		
+	log("Now: " + $now + " scarico punti delta week 2 =  1461362460000 to 1461967260000");		
 	$pc.setScore($pc.getScore() + (long) $delta);
 	update($pc);
 	retract ($pd); 
