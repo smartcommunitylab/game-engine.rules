@@ -58,7 +58,7 @@ end
 rule "update bike counters"
 lock-on-active
 when
-    InputData( $km : data["bikeDistance"] != null)
+    InputData( $km : data["bikeDistance"] != null, $km >= bikeDistance_try_min)
     $c : CustomData($counterKm : this["bike_km"], $counterTrips : this["bike_trips"], $counterKmPast : this["bike_km_past"], $counterTripsPast: this["bike_trips_past"])
 then
 	if($counterKm == null) {
@@ -88,7 +88,7 @@ end
 rule "update bikesharing counters"
 lock-on-active
 when
-    InputData( $km : data["bikeDistance"] != null, data["bikesharing"] == true)
+    InputData( $km : data["bikeDistance"] != null, $km >= bikeDistance_try_min, data["bikesharing"] == true)
     $c : CustomData($counterKm : this["bikesharing_km"], $counterTrips : this["bikesharing_trips"], $counterKmPast : this["bikesharing_km_past"], $counterTripsPast: this["bikesharing_trips_past"])
 then
 	if($counterKm == null) {

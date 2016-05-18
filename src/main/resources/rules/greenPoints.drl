@@ -35,7 +35,7 @@ when
 then
 
 	boolean isSustainable = $sustainable != null ? (Boolean)$sustainable : false;
-	long score_sustainable = 0l;
+	Double score_sustainable = 0.0;
 	
 	log("apply \'public transport update green points\'");	
 	if ($bus == null) 
@@ -56,11 +56,11 @@ then
 		ptPoints = green_bus_points_base;
 		
 	if (isSustainable)
-	 	score_sustainable = Math.round(ptPoints * sustainable_booster);
+	 	score_sustainable = ptPoints * sustainable_booster;
 		
-	$pc.setScore($pc.getScore() + ptPoints + score_sustainable);
+	$pc.setScore($pc.getScore() + Math.round(ptPoints + score_sustainable));
 	update($pc);
-	insert(new PointDelta(ptPoints + score_sustainable,"green leaves")); 
+	insert(new PointDelta(Math.round(ptPoints + score_sustainable),"green leaves")); 
 end
 
 rule "0-impact - sustainable - walk - bike - update green points"
@@ -71,8 +71,8 @@ then
 	boolean zeroImpact = ($walk != null || $bike != null) && (($bus == null || ((Double)$bus) == 0) &&  ($car == null || ((Double)$car) == 0) && ($train == null || ((Double)$train) == 0));
 	boolean isSustainable = $sustainable != null ? (Boolean)$sustainable : false;
 	
-	long score_zeroImpact = 0l;
-	long score_sustainable = 0l;
+	Double score_zeroImpact = 0.0;
+	Double score_sustainable = 0.0;
 	
 	Double walkDistance = $walk != null ? (Double) $walk : 0.0;
 	walkDistance = walkDistance < walk_min ? 0.0 : walkDistance;
@@ -81,16 +81,16 @@ then
 	Double bikeDistance = $bike != null ? (Double) $bike : 0.0;
 	bikeDistance = bikeDistance > bike_max ? bike_max : bikeDistance;
 	
-	long score = Math.round(walkDistance * green_walk_points)  + Math.round(bikeDistance * green_bike_points) ;
+	Double score = (walkDistance * green_walk_points)  + (bikeDistance * green_bike_points);
 	
 	if (zeroImpact)
-		score_zeroImpact = Math.round(zero_impact_booster * score);	
+		score_zeroImpact = zero_impact_booster * score;	
  	if (isSustainable)
-	 	score_sustainable = Math.round(score * sustainable_booster);
+	 	score_sustainable = score * sustainable_booster;
 	
-	$pc.setScore($pc.getScore() + score + score_zeroImpact + score_sustainable);
+	$pc.setScore($pc.getScore() + Math.round(score + score_zeroImpact + score_sustainable));
 	update($pc);
-	insert(new PointDelta(score + score_zeroImpact + score_sustainable,"green leaves"));
+	insert(new PointDelta(Math.round(score + score_zeroImpact + score_sustainable),"green leaves"));
 end
 
 /*rule "green sustainable bonus"
