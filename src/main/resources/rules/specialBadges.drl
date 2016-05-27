@@ -94,7 +94,56 @@ then
 	}
 end
 
+rule "100 trip bike"
+	salience -1000
+when
+	$c : CustomData($counterTrips : this["bike_trips"], $counterTrips != null)
+    $bc : BadgeCollectionConcept(name == "bike aficionado", badgeEarned not contains '100_bike_trip')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	if ((Integer)$counterTrips >= 100) {
+		log("apply \'100_bike_trip badge\'");
+		$bc.getBadgeEarned().add('100_bike_trip');
+		insert( new BadgeNotification($gameId,$playerId,'100_bike_trip'));
+		insert ( new BadgeUpdate("100_bike_trip", "bike aficionado"));
+		update( $bc );
+	}
+end
 
+rule "200 trip bike"
+	salience -1000
+when
+	$c : CustomData($counterTrips : this["bike_trips"], $counterTrips != null)
+    $bc : BadgeCollectionConcept(name == "bike aficionado", badgeEarned not contains '200_bike_trip')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	if ((Integer)$counterTrips >= 200) {
+		log("apply \'200_bike_trip badge\'");
+		$bc.getBadgeEarned().add('200_bike_trip');
+		insert( new BadgeNotification($gameId,$playerId,'200_bike_trip'));
+		insert ( new BadgeUpdate("200_bike_trip", "bike aficionado"));
+		update( $bc );
+	}
+end
+
+rule "500 trip bike"
+	salience -1000
+when
+	$c : CustomData($counterTrips : this["bike_trips"], $counterTrips != null)
+    $bc : BadgeCollectionConcept(name == "bike aficionado", badgeEarned not contains '500_bike_trip')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	if ((Integer)$counterTrips >= 500) {
+		log("apply \'500_bike_trip badge\'");
+		$bc.getBadgeEarned().add('500_bike_trip');
+		insert( new BadgeNotification($gameId,$playerId,'500_bike_trip'));
+		insert ( new BadgeUpdate("500_bike_trip", "bike aficionado"));
+		update( $bc );
+	}
+end
 
 /* ***************************************************************************
 BIKE SHARING PIONEER COLLECTION  
@@ -221,6 +270,40 @@ then
 	}
 end
 
+rule "200 trip public transport"
+	salience -1000
+when
+	$c : CustomData($counterTrainTrips : this["train_trips"], $counterBusTrips : this["bus_trips"], $counterTrainTrips != null, $counterBusTrips != null)
+    $bc : BadgeCollectionConcept(name == "public transport aficionado", badgeEarned not contains '200_pt_trip')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	if ((Integer)$counterTrainTrips + (Integer)$counterBusTrips >= 200) {
+		log("apply \'200_pt_trip badge\'");
+		$bc.getBadgeEarned().add('200_pt_trip');
+		insert( new BadgeNotification($gameId,$playerId,'200_pt_trip'));
+		insert( new BadgeUpdate("200_pt_trip", "public transport aficionado"));	
+		update( $bc );
+	}
+end
+
+rule "500 trip public transport"
+	salience -1000
+when
+	$c : CustomData($counterTrainTrips : this["train_trips"], $counterBusTrips : this["bus_trips"], $counterTrainTrips != null, $counterBusTrips != null)
+    $bc : BadgeCollectionConcept(name == "public transport aficionado", badgeEarned not contains '500_pt_trip')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	if ((Integer)$counterTrainTrips + (Integer)$counterBusTrips >= 500) {
+		log("apply \'500_pt_trip badge\'");
+		$bc.getBadgeEarned().add('500_pt_trip');
+		insert( new BadgeNotification($gameId,$playerId,'500_pt_trip'));
+		insert( new BadgeUpdate("500_pt_trip", "public transport aficionado"));	
+		update( $bc );
+	}
+end
+
 
 /* ***************************************************************************
 PARK & RIDE PIONEER COLLECTION 
@@ -329,6 +412,57 @@ then
 		$bc.getBadgeEarned().add('50_zero_impact_trip');
 		insert( new BadgeNotification($gameId,$playerId,'50_zero_impact_trip'));
 		insert( new BadgeUpdate("50_zero_impact_trip", "sustainable life"));	
+		update( $bc );
+	}
+end
+
+rule "100 trip impact0"
+	salience -1000
+when
+	$c : CustomData($counterTrips : this["zero_impact_trips"], $counterTrips != null)
+    $bc : BadgeCollectionConcept(name == "sustainable life", badgeEarned not contains '100_zero_impact_trip')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	if ((Integer)$counterTrips >= 100) {
+		log("apply \'100_zero_impact_trip\'");
+		$bc.getBadgeEarned().add('100_zero_impact_trip');
+		insert( new BadgeNotification($gameId,$playerId,'100_zero_impact_trip'));
+		insert( new BadgeUpdate("100_zero_impact_trip", "sustainable life"));	
+		update( $bc );
+	}
+end
+
+rule "200 trip impact0"
+	salience -1000
+when
+	$c : CustomData($counterTrips : this["zero_impact_trips"], $counterTrips != null)
+    $bc : BadgeCollectionConcept(name == "sustainable life", badgeEarned not contains '200_zero_impact_trip')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	if ((Integer)$counterTrips >= 200) {
+		log("apply \'200_zero_impact_trip\'");
+		$bc.getBadgeEarned().add('200_zero_impact_trip');
+		insert( new BadgeNotification($gameId,$playerId,'200_zero_impact_trip'));
+		insert( new BadgeUpdate("200_zero_impact_trip", "sustainable life"));	
+		update( $bc );
+	}
+end
+
+rule "500 trip impact0"
+	salience -1000
+when
+	$c : CustomData($counterTrips : this["zero_impact_trips"], $counterTrips != null)
+    $bc : BadgeCollectionConcept(name == "sustainable life", badgeEarned not contains '500_zero_impact_trip')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	if ((Integer)$counterTrips >= 500) {
+		log("apply \'500_zero_impact_trip\'");
+		$bc.getBadgeEarned().add('500_zero_impact_trip');
+		insert( new BadgeNotification($gameId,$playerId,'500_zero_impact_trip'));
+		insert( new BadgeUpdate("500_zero_impact_trip", "sustainable life"));	
 		update( $bc );
 	}
 end

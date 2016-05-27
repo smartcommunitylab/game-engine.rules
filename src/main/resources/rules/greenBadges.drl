@@ -133,3 +133,33 @@ then
 	update( $bc );
 end
 
+rule "10000 point green badge"
+	salience -1000
+when
+    PointConcept(name == 'green leaves', score >= 10000.0)
+    $bc : BadgeCollectionConcept(name == "green leaves", badgeEarned not contains '10000_point_green')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	log("apply \'10000_point_green badge\'");
+	$bc.getBadgeEarned().add('10000_point_green');
+	insert( new BadgeNotification($gameId,$playerId,'10000_point_green'));
+	insert ( new BadgeUpdate("10000_point_green", "green leaves"));
+	update( $bc );
+end
+
+rule "20000 point green badge"
+	salience -1000
+when
+    PointConcept(name == 'green leaves', score >= 20000.0)
+    $bc : BadgeCollectionConcept(name == "green leaves", badgeEarned not contains '20000_point_green')
+    Game( $gameId: id)
+    Player( $playerId : id)
+then
+	log("apply \'20000_point_green badge\'");
+	$bc.getBadgeEarned().add('20000_point_green');
+	insert( new BadgeNotification($gameId,$playerId,'20000_point_green'));
+	insert ( new BadgeUpdate("20000_point_green", "green leaves"));
+	update( $bc );
+end
+
