@@ -49,6 +49,7 @@ bike_max=7.0
 busDistance_try_min=0.5
 bikeDistance_try_min=0.5
 trainDistance_try_min=5.0
+walkDistance_try_min=0.1
 
 #starting times (millisec) for weekly green leaves classifications
 #April 1
