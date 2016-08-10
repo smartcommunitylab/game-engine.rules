@@ -2,7 +2,6 @@ package eu.trentorise.game.model
 
 global Integer green_walk_points;
 global Integer green_bike_points;
-global Integer green_sustainable_bonus;
 global Integer recommendation_bonus;
 global Integer green_bus_points_base;
 global Integer green_bus_points_step0;
@@ -10,7 +9,6 @@ global Integer green_bus_points_step1;
 global Integer green_bus_points_step2;
 global Integer green_bus_points_step3;
 global Double zero_impact_booster;
-global Double sustainable_booster;
 
 global Double bus_threshold_step0;
 global Double bus_threshold_step1;
@@ -23,20 +21,13 @@ global Double bike_max;
 
 declare PRItinerary end
 
-declare PointDelta
-	delta : long
-	pointType : String
-end
 
 rule "public transport update green points"
 when
-	InputData($bus : data["busDistance"] !=null || $train : data["trainDistance"] != null , $sustainable : data["sustainable"])
+	InputData($bus : data["busDistance"] !=null || $train : data["trainDistance"] != null )
 	$pc : PointConcept(name == "green leaves")
 then
 
-	boolean isSustainable = $sustainable != null ? (Boolean)$sustainable : false;
-	Double score_sustainable = 0.0;
-	
 	log("apply \'public transport update green points\'");	
 	if ($bus == null) 
 		$bus = 0d;
@@ -55,24 +46,18 @@ then
 	else
 		ptPoints = green_bus_points_base;
 		
-	if (isSustainable)
-	 	score_sustainable = ptPoints * sustainable_booster;
-		
-	$pc.setScore($pc.getScore() + Math.round(ptPoints + score_sustainable));
-	update($pc);
-	insert(new PointDelta(Math.round(ptPoints + score_sustainable),"green leaves")); 
+	$pc.increment(Math.round(ptPoints));
+	update($pc); 
 end
 
 rule "0-impact - sustainable - walk - bike - update green points"
 when
-	InputData($bike : data["bikeDistance"], $walk : data["walkDistance"], $bus : data["busDistance"], $train : data["trainDistance"], $car : data["carDistance"], $sustainable : data["sustainable"])
+	InputData($bike : data["bikeDistance"], $walk : data["walkDistance"], $bus : data["busDistance"], $train : data["trainDistance"], $car : data["carDistance"])
 	$pc : PointConcept( name == "green leaves")
 then
 	boolean zeroImpact = ($walk != null || $bike != null) && (($bus == null || ((Double)$bus) == 0) &&  ($car == null || ((Double)$car) == 0) && ($train == null || ((Double)$train) == 0));
-	boolean isSustainable = $sustainable != null ? (Boolean)$sustainable : false;
 	
 	Double score_zeroImpact = 0.0;
-	Double score_sustainable = 0.0;
 	
 	Double walkDistance = $walk != null ? (Double) $walk : 0.0;
 	walkDistance = walkDistance < walk_min ? 0.0 : walkDistance;
@@ -85,25 +70,12 @@ then
 	
 	if (zeroImpact)
 		score_zeroImpact = zero_impact_booster * score;	
- 	if (isSustainable)
-	 	score_sustainable = score * sustainable_booster;
-	
-	$pc.setScore($pc.getScore() + Math.round(score + score_zeroImpact + score_sustainable));
+ 	
+	$pc.increment(Math.round(score + score_zeroImpact));
 	update($pc);
-	insert(new PointDelta(Math.round(score + score_zeroImpact + score_sustainable),"green leaves"));
+
 end
 
-/*rule "green sustainable bonus"
-	salience 1
-when
-    InputData(data['sustainable'] == true)
-    $pc : PointConcept(name == "green leaves")
-then
-	log("apply \'green sustainable bonus\'");
-	$pc.setScore($pc.getScore() + green_sustainable_bonus);
-    update($pc);
-    insert(new PointDelta(green_sustainable_bonus,"green leaves")); 
-end*/
 
 rule "recommendation bonus"
 	salience 1
@@ -112,7 +84,6 @@ when
     $pc : PointConcept(name == "green leaves")
 then
 	log("apply \'recommendation bonus\'");
-	$pc.setScore($pc.getScore() + recommendation_bonus);
-    update($pc);
-    insert(new PointDelta(recommendation_bonus,"green leaves")); 
+	$pc.increment(recommendation_bonus);
+    update($pc); 
 end
