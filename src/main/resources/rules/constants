@@ -20,7 +20,6 @@
 green_walk_points=10
 green_bike_points=5
 zero_impact_booster=0.5
-sustainable_booster=0.2
 recommendation_bonus=20
 
 #GREEN POINTS for public transport (BOTH bus AND train)
@@ -41,7 +40,7 @@ bike_sharing_pioneer_size = 14
 park_and_ride_pioneer_size = 2
 
 #soglie di rilevanza per modo
-walk_min=0.1
+walk_min=0.25
 walk_max=3.5
 bike_max=7.0
 
