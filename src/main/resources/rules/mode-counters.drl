@@ -4,114 +4,56 @@ global Double walk_min;
 global Double walk_max;
 global Double bike_max;
 
-rule " 0-impact update counters"
+rule "update 0-impact counters"
 lock-on-active
 when
 	InputData (($walk : data["walkDistance"] != null || $bike : data["bikeDistance"] != null) &&
 		($bus : data["busDistance"] == null || ((Double)$bus)==0) && 
 		($train : data["trainDistance"] == null || ((Double)$train)==0) &&
 		($car : data["carDistance"]==null || ((Double)$car)==0))
-		$c : CustomData($counterZeroPast : this["zero_impact_trips_past"], $counterZero : this["zero_impact_trips"])
+		$zeroImpactTrips : PointConcept(name == "ZeroImpact_Trips")
 then
-		log("apply \'0-impact update counters\'");
-		if ($counterZeroPast == null)
-			$c.put("zero_impact_trips_past", 1);
-		else 
-			$c.put("zero_impact_trips_past", (Integer) $counterZeroPast + 1);
-		if ($counterZero == null)
-			$c.put("zero_impact_trips", 1);
-		else 
-			$c.put("zero_impact_trips", (Integer) $counterZero + 1);
-		update ($c);
+	log("apply \'ZeroImpact_Trips update\'");
+	$zeroImpactTrips.increment(1.0d);
+	update($zeroImpactTrips); 
 end
 
 rule "update walk counters"
 lock-on-active
 when
     InputData( $km : data["walkDistance"] != null, $km >= walk_min)
-    $c : CustomData($counterKm : this["walk_km"], $counterTrips: this["walk_trips"], $counterKmPast : this["walk_km_past"], $counterTripsPast: this["walk_trips_past"])
+    $walkTrips : PointConcept(name == "Walk_Trips")
+    $walkKm : PointConcept(name == "Walk_Km")
 then
-	if($counterKm == null) {
-		$c.put("walk_km", (Double) $km);
-	} else {
-		$c.put("walk_km", (Double) $counterKm + (Double) $km);
-	}
-	if($counterKmPast == null) {
-		$c.put("walk_km_past", (Double) $km);
-	} else {
-		$c.put("walk_km_past", (Double) $counterKmPast + (Double) $km);
-	}
-	if($counterTrips == null) {
-		$c.put("walk_trips", 1);
-	} else {
-		$c.put("walk_trips", (Integer)$counterTrips +1);	
-	}
-	if($counterTripsPast == null) {
-		$c.put("walk_trips_past", 1);
-	} else {
-		$c.put("walk_trips_past", (Integer) $counterTripsPast + 1);
-	}
-    update($c);
+	log("apply \'Walk_Trips and Walk_Km update\'");
+	$walkTrips.increment(1.0d);
+	$walkKm.increment((Double) $km);
+	update($walkTrips); 
+	update($walkKm);
 end
 
 
-rule "update bike counters"
+rule "update bike and bike sharing counters"
 lock-on-active
 when
-    InputData( $km : data["bikeDistance"] != null, $km >= bikeDistance_try_min)
-    $c : CustomData($counterKm : this["bike_km"], $counterTrips : this["bike_trips"], $counterKmPast : this["bike_km_past"], $counterTripsPast: this["bike_trips_past"])
+    InputData( $km : data["bikeDistance"] != null, $bs : data["bikesharing"])
+    $bikeTrips : PointConcept(name == "Bike_Trips")
+    $bikeKm : PointConcept(name == "Bike_Km")
+    $bsTrips : PointConcept(name == "BikeSharing_Trips")
+    $bsKm : PointConcept(name == "BikeSharing_Km")
 then
-	if($counterKm == null) {
-		$c.put("bike_km", (Double) $km);
-	} else {
-		$c.put("bike_km", (Double) $counterKm + (Double) $km);
-	}
-	if($counterKmPast == null) {
-		$c.put("bike_km_past", (Double) $km);
-	} else {
-		$c.put("bike_km_past", (Double) $counterKmPast + (Double) $km);
-	}
-	if($counterTrips == null) {
-		$c.put("bike_trips", 1);
-	} else {
-		$c.put("bike_trips", (Integer) $counterTrips + 1);
-	}
-	if($counterTripsPast == null) {
-		$c.put("bike_trips_past", 1);
-	} else {
-		$c.put("bike_trips_past", (Integer) $counterTripsPast + 1);
-	}
-    update($c);
-end
-
-
-rule "update bikesharing counters"
-lock-on-active
-when
-    InputData( $km : data["bikeDistance"] != null, $km >= bikeDistance_try_min, data["bikesharing"] == true)
-    $c : CustomData($counterKm : this["bikesharing_km"], $counterTrips : this["bikesharing_trips"], $counterKmPast : this["bikesharing_km_past"], $counterTripsPast: this["bikesharing_trips_past"])
-then
-	if($counterKm == null) {
-		$c.put("bikesharing_km", (Double) $km);
-	} else {
-		$c.put("bikesharing_km", (Double) $counterKm + (Double) $km);
-	}
-	if($counterKmPast == null) {
-		$c.put("bikesharing_km_past", (Double) $km);
-	} else {
-		$c.put("bikesharing_km_past", (Double) $counterKmPast + (Double) $km);
-	}
-	if($counterTrips == null) {
-		$c.put("bikesharing_trips", 1);
-	} else {
-		$c.put("bikesharing_trips", (Integer) $counterTrips + 1);
-	}
-	if($counterTripsPast == null) {
-		$c.put("bikesharing_trips_past", 1);
-	} else {
-		$c.put("bikesharing_trips_past", (Integer) $counterTripsPast + 1);
-	}
-    update($c);
+	if((boolean) $bs == true) {
+		log("apply \'BikeSharing_Trips and BikeSharing_Km update\'");
+		$bsTrips.increment(1.0d);
+		$bsKm.increment((Double) $km);
+		update($bsTrips); 
+		update($bsKm);
+	} 
+	log("apply \'Bike_Trips and Bike_Km update\'");
+	$bikeTrips.increment(1.0d);
+	$bikeKm.increment((Double) $km);
+	update($bikeTrips); 
+	update($bikeKm);
 end
 
 
@@ -119,29 +61,14 @@ rule "update bus counters"
 lock-on-active
 when
     InputData( $km : data["busDistance"] != null)
-    $c : CustomData($counterKm : this["bus_km"], $counterTrips : this["bus_trips"], $counterKmPast : this["bus_km_past"], $counterTripsPast: this["bus_trips_past"])
+    $busTrips : PointConcept(name == "Bus_Trips")
+    $busKm : PointConcept(name == "Bus_Km")
 then
-	if($counterKm == null) {
-		$c.put("bus_km", (Double) $km);
-	} else {
-		$c.put("bus_km", (Double) $counterKm + (Double) $km);
-	}
-	if($counterKmPast == null) {
-		$c.put("bus_km_past", (Double) $km);
-	} else {
-		$c.put("bus_km_past", (Double) $counterKmPast + (Double) $km);
-	}
-	if($counterTrips == null) {
-		$c.put("bus_trips", 1);
-	} else {
-		$c.put("bus_trips", (Integer) $counterTrips + 1);
-	}
-	if($counterTripsPast == null) {
-		$c.put("bus_trips_past", 1);
-	} else {
-		$c.put("bus_trips_past", (Integer) $counterTripsPast + 1);
-	}
-    update($c);
+	log("apply \'Bus_Trips and Bus_Km update\'");
+	$busTrips.increment(1.0d);
+	$busKm.increment((Double) $km);
+	update($busTrips); 
+	update($busKm);
 end
 
 
@@ -149,87 +76,62 @@ rule "update train counters"
 lock-on-active
 when
     InputData( $km : data["trainDistance"] != null)
-    $c : CustomData($counterKm : this["train_km"], $counterTrips : this["train_trips"], $counterKmPast : this["train_km_past"], $counterTripsPast: this["train_trips_past"])
+    $trainTrips : PointConcept(name == "Train_Trips")
+    $trainKm : PointConcept(name == "Train_Km")
 then
-	if($counterKm == null) {
-		$c.put("train_km", (Double) $km);
-	} else {
-		$c.put("train_km", (Double) $counterKm + (Double) $km);
-	}
-	if($counterKmPast == null) {
-		$c.put("train_km_past", (Double) $km);
-	} else {
-		$c.put("train_km_past", (Double) $counterKmPast + (Double) $km);
-	}
-	if($counterTrips == null) {
-		$c.put("train_trips", 1);
-	} else {
-		$c.put("train_trips", (Integer) $counterTrips + 1);
-	}
-	if($counterTripsPast == null) {
-		$c.put("train_trips_past", 1);
-	} else {
-		$c.put("train_trips_past", (Integer) $counterTripsPast + 1);
-	}
-    update($c);
+	log("apply \'Train_Trips and Train_Km update\'");
+	$trainTrips.increment(1.0d);
+	$trainKm.increment((Double) $km);
+	update($trainTrips); 
+	update($trainKm);
 end
 
 rule "update car counters"
 lock-on-active
 when
     InputData( $km : data["carDistance"] != null)
-    $c : CustomData($counterKm : this["car_km"],$counterTrips : this["car_trips"], $counterKmPast : this["car_km_past"], $counterTripsPast: this["car_trips_past"])
+    $carTrips : PointConcept(name == "Car_Trips")
+    $carKm : PointConcept(name == "Car_Km")
 then
-	if($counterKm == null) {
-		$c.put("car_km", (Double) $km);
-	} else {
-		$c.put("car_km", (Double) $counterKm + (Double) $km);
-	}
-	if($counterKmPast == null) {
-		$c.put("car_km_past", (Double) $km);
-	} else {
-		$c.put("car_km_past", (Double) $counterKmPast + (Double) $km);
-	}
-	if($counterTrips == null) {
-		$c.put("car_trips", 1);
-	} else {
-		$c.put("car_trips", (Integer) $counterTrips + 1);
-	}
-	if($counterTripsPast == null) {
-		$c.put("car_trips_past", 1);
-	} else {
-		$c.put("car_trips_past", (Integer) $counterTripsPast + 1);
-	}
-    update($c);
+	log("apply \'Car_Trips and Car_Km update\'");
+	$carTrips.increment(1.0d);
+	$carKm.increment((Double) $km);
+	update($carTrips); 
+	update($carKm);
+end
+
+rule "update no-car counters"
+lock-on-active
+when
+    InputData( $km : data["carDistance"] == null)
+    $noCarTrips : PointConcept(name == "NoCar_Trips")
+then
+	log("apply \'NoCar_Trips update\'");
+	$noCarTrips.increment(1.0d);
+	update($noCarTrips); 
 end
 
 rule "update recommendation counters"
 lock-on-active
 when
 	Action ($id : id == "app_sent_recommandation")
-	$c : CustomData($counterRec : this["recommendations"])
+	$reccomend : PointConcept(name == "Reccomendations")
 then
-		log("apply \'recommendation update counters\'");
-		if ($counterRec == null)
-			$c.put("recommendations", 1);
-		else 
-			$c.put("recommendations", (Integer) $counterRec + 1);
-		update ($c);
+	log("apply \'Reccomendations update\'");
+	$reccomend.increment(1.0d);
+	update($reccomend); 
 end
 
-
-/*
-rule "update point counters"
-when 
-	$delta : PointDelta(this.pointType == "green leaves")
-	$c : CustomData($counterGreenPoints : this["gp_current"])
+rule "update P&R counters"
+lock-on-active
+when
+    InputData( $park : data['park'] != null)
+    $PandR : PointConcept(name == "PandR_Trips")
 then
-	Long points = $delta.getDelta();
-	Long gp = $counterGreenPoints != null ? (Long)$counterGreenPoints : 0l;
-	gp += points;
-	$c.put("gp_current", gp);
-	log("current Green Point counter = " + gp);
-	update($c);
-	retract($delta);
+	log("apply \'PandR_Trips update\'");
+	$PandR.increment(1.0d);
+	update($PandR);
 end
-*/
+
+//rule "update Cable counters"
+//TODO if needed..

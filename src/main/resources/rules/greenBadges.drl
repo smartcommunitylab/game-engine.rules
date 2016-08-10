@@ -23,6 +23,7 @@ then
 end
 
 
+
 rule "100 point green badge"
 	salience -1000
 when

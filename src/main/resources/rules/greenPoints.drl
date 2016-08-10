@@ -1,13 +1,13 @@
 package eu.trentorise.game.model
 
-global Integer green_walk_points;
-global Integer green_bike_points;
-global Integer recommendation_bonus;
-global Integer green_bus_points_base;
-global Integer green_bus_points_step0;
-global Integer green_bus_points_step1;
-global Integer green_bus_points_step2;
-global Integer green_bus_points_step3;
+global Double green_walk_points;
+global Double green_bike_points;
+global Double recommendation_bonus;
+global Double green_bus_points_base;
+global Double green_bus_points_step0;
+global Double green_bus_points_step1;
+global Double green_bus_points_step2;
+global Double green_bus_points_step3;
 global Double zero_impact_booster;
 
 global Double bus_threshold_step0;
@@ -18,8 +18,6 @@ global Double walk_min;
 global Double walk_max;
 global Double bike_max;
 
-
-declare PRItinerary end
 
 
 rule "public transport update green points"
@@ -34,7 +32,7 @@ then
 	if ($train == null)
 		$train = 0d;
 	Double ptDistance = (Double)$bus + (Double)$train;
-	Integer ptPoints;
+	Double ptPoints;
 	if (ptDistance >= bus_threshold_step0 && ptDistance < bus_threshold_step1)
 		ptPoints = green_bus_points_step0;
 	else if (ptDistance >= bus_threshold_step1 && ptDistance < bus_threshold_step2)
@@ -46,7 +44,7 @@ then
 	else
 		ptPoints = green_bus_points_base;
 		
-	$pc.increment(Math.round(ptPoints));
+	$pc.increment(ptPoints);
 	update($pc); 
 end
 
@@ -55,6 +53,7 @@ when
 	InputData($bike : data["bikeDistance"], $walk : data["walkDistance"], $bus : data["busDistance"], $train : data["trainDistance"], $car : data["carDistance"])
 	$pc : PointConcept( name == "green leaves")
 then
+	log("apply \'0-impact - sustainable - walk - bike - update green points\'");
 	boolean zeroImpact = ($walk != null || $bike != null) && (($bus == null || ((Double)$bus) == 0) &&  ($car == null || ((Double)$car) == 0) && ($train == null || ((Double)$train) == 0));
 	
 	Double score_zeroImpact = 0.0;
@@ -71,7 +70,7 @@ then
 	if (zeroImpact)
 		score_zeroImpact = zero_impact_booster * score;	
  	
-	$pc.increment(Math.round(score + score_zeroImpact));
+	$pc.increment((Double) Math.rint(score + score_zeroImpact));
 	update($pc);
 
 end

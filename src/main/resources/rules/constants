@@ -17,17 +17,17 @@
 
 
 # GREEN POINTS for Walk, Bike, BikeSharing
-green_walk_points=10
-green_bike_points=5
+green_walk_points=10.0
+green_bike_points=5.0
 zero_impact_booster=0.5
-recommendation_bonus=20
+recommendation_bonus=20.0
 
 #GREEN POINTS for public transport (BOTH bus AND train)
-green_bus_points_base=10
-green_bus_points_step0=15
-green_bus_points_step1=20
-green_bus_points_step2=30
-green_bus_points_step3=40
+green_bus_points_base=10.0
+green_bus_points_step0=15.0
+green_bus_points_step1=20.0
+green_bus_points_step2=30.0
+green_bus_points_step3=40.0
 
 bus_threshold_step0=1.0
 bus_threshold_step1=5.0
