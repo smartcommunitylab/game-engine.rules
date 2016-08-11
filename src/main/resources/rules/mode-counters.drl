@@ -13,9 +13,20 @@ when
 		($car : data["carDistance"]==null || ((Double)$car)==0))
 		$zeroImpactTrips : PointConcept(name == "ZeroImpact_Trips")
 then
-	log("apply \'ZeroImpact_Trips update\'");
-	$zeroImpactTrips.increment(1.0d);
-	update($zeroImpactTrips); 
+	Boolean incremented= new Boolean(false);
+	if($walk!=null){
+	if((Double) $walk > walk_min){
+		log("apply \'ZeroImpact_Trips update\'");
+		$zeroImpactTrips.increment(1.0d);
+		update($zeroImpactTrips);
+		incremented=true;
+		}
+	}
+	if(incremented==false && $bike!=null){
+		log("apply \'ZeroImpact_Trips update\'");
+		$zeroImpactTrips.increment(1.0d);
+		update($zeroImpactTrips);
+	}
 end
 
 rule "update walk counters"
