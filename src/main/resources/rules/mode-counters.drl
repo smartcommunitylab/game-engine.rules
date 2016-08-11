@@ -42,13 +42,15 @@ when
     $bsTrips : PointConcept(name == "BikeSharing_Trips")
     $bsKm : PointConcept(name == "BikeSharing_Km")
 then
-	if((boolean) $bs == true) {
-		log("apply \'BikeSharing_Trips and BikeSharing_Km update\'");
-		$bsTrips.increment(1.0d);
-		$bsKm.increment((Double) $km);
-		update($bsTrips); 
-		update($bsKm);
-	} 
+	if($bs !=null){
+		if((boolean) $bs == true) {
+			log("apply \'BikeSharing_Trips and BikeSharing_Km update\'");
+			$bsTrips.increment(1.0d);
+			$bsKm.increment((Double) $km);
+			update($bsTrips); 
+			update($bsKm);
+		} 
+	}
 	log("apply \'Bike_Trips and Bike_Km update\'");
 	$bikeTrips.increment(1.0d);
 	$bikeKm.increment((Double) $km);
