@@ -50,6 +50,7 @@ end
 
 rule "0-impact - sustainable - walk - bike - update green points"
 when
+	Action ($id : id == "save_itinerary")
 	InputData($bike : data["bikeDistance"], $walk : data["walkDistance"], $bus : data["busDistance"], $train : data["trainDistance"], $car : data["carDistance"])
 	$pc : PointConcept( name == "green leaves")
 then

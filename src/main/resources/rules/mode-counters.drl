@@ -116,6 +116,7 @@ end
 rule "update no-car counters"
 lock-on-active
 when
+	Action ($id : id == "save_itinerary")
     InputData( $km : data["carDistance"] == null)
     $noCarTrips : PointConcept(name == "NoCar_Trips")
 then
