@@ -1,0 +1,14 @@
+package eu.trentorise.game.model
+
+rule 'ch_absoluteIncrement_check'
+when
+	$challenge : ChallengeConcept( modelName == "absoluteIncrement", $counter: fields["counterName"], $target: fields["target"], $periodName: fields["periodName"] , $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )
+	$pc1 : PointConcept(name == (String) $counter, getPeriodCurrentScore((String)$periodName) >= $target)
+	$pc : PointConcept(name == (String) $bonusPointType)
+then
+	log('absoluteIncrement COMPLETED');
+	$challenge.completed();
+	$pc.increment((Double) $bonusScore);
+	update($pc);
+	update($challenge);
+end
