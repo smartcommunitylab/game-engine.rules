@@ -128,9 +128,9 @@ rule "update recommendation counters"
 lock-on-active
 when
 	Action ($id : id == "app_sent_recommandation")
-	$reccomend : PointConcept(name == "Reccomendations")
+	$reccomend : PointConcept(name == "Recommendations")
 then
-	log("apply \'Reccomendations update\'");
+	log("apply \'Recommendations update\'");
 	$reccomend.increment(1.0d);
 	update($reccomend); 
 end
