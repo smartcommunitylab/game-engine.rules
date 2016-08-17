@@ -1,0 +1,14 @@
+package eu.trentorise.game.model
+
+rule 'ch_survey_check'
+when
+	Action(id == 'survey_complete')
+	$challenge : ChallengeConcept( modelName == "survey", $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
+	$pc : PointConcept(name == (String) $bonusPointType)		
+then
+	log('survey COMPLETED');
+	$challenge.completed();
+	$pc.increment((Double) $bonusScore);
+	update($pc);
+	update($challenge);
+end
