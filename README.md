@@ -1,6 +1,6 @@
 # Basic game rules for challenge generation
 
-In this project are defined game rules used during [Gamification Engine challenge generator](https://github.com/das-fbk/game-engine.challenge-gen).
+In this project are defined game rules used during [Gamification Engine challenge generator](https://github.com/das-fbk/game-engine.challenge-gen) from [DAS](https://github.com/das-fbk)
 
 ## Description
 
