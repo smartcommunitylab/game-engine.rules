@@ -44,7 +44,8 @@ then
 	else
 		ptPoints = green_bus_points_base;
 		
-	$pc.increment(ptPoints);
+	$pc.setScore($pc.getScore() + (Double) Math.rint(ptPoints));
+	
 	update($pc); 
 end
 
@@ -71,7 +72,7 @@ then
 	if (zeroImpact)
 		score_zeroImpact = zero_impact_booster * score;	
  	
-	$pc.increment((Double) Math.rint(score + score_zeroImpact));
+	$pc.setScore($pc.getScore() + (Double) Math.rint(score + score_zeroImpact));
 	update($pc);
 
 end
@@ -84,6 +85,6 @@ when
     $pc : PointConcept(name == "green leaves")
 then
 	log("apply \'recommendation bonus\'");
-	$pc.increment(recommendation_bonus);
+	$pc.setScore($pc.getScore() + recommendation_bonus);
     update($pc); 
 end
