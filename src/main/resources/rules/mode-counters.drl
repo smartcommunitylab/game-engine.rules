@@ -17,14 +17,14 @@ then
 	if($walk!=null){
 	if((Double) $walk > walk_min){
 		log("apply \'ZeroImpact_Trips update\'");
-		$zeroImpactTrips.increment(1.0d);
+		$zeroImpactTrips.setScore($zeroImpactTrips.getScore() + 1.0d);
 		update($zeroImpactTrips);
 		incremented=true;
 		}
 	}
 	if(incremented==false && $bike!=null){
 		log("apply \'ZeroImpact_Trips update\'");
-		$zeroImpactTrips.increment(1.0d);
+		$zeroImpactTrips.setScore($zeroImpactTrips.getScore() + 1.0d);
 		update($zeroImpactTrips);
 	}
 end
@@ -37,8 +37,8 @@ when
     $walkKm : PointConcept(name == "Walk_Km")
 then
 	log("apply \'Walk_Trips and Walk_Km update\'");
-	$walkTrips.increment(1.0d);
-	$walkKm.increment((Double) $km);
+	$walkTrips.setScore($walkTrips.getScore() + 1.0d);
+	$walkKm.setScore($walkKm.getScore() + (Double) $km);
 	update($walkTrips); 
 	update($walkKm);
 end
@@ -56,15 +56,15 @@ then
 	if($bs !=null){
 		if((boolean) $bs == true) {
 			log("apply \'BikeSharing_Trips and BikeSharing_Km update\'");
-			$bsTrips.increment(1.0d);
-			$bsKm.increment((Double) $km);
+			$bsTrips.setScore($bsTrips.getScore() + 1.0d);
+			$bsKm.setScore($bsKm.getScore() + (Double) $km);
 			update($bsTrips); 
 			update($bsKm);
 		} 
 	}
 	log("apply \'Bike_Trips and Bike_Km update\'");
-	$bikeTrips.increment(1.0d);
-	$bikeKm.increment((Double) $km);
+	$bikeTrips.setScore($bikeTrips.getScore() + 1.0d);
+	$bikeKm.setScore($bikeKm.getScore() + (Double) $km);
 	update($bikeTrips); 
 	update($bikeKm);
 end
@@ -78,8 +78,8 @@ when
     $busKm : PointConcept(name == "Bus_Km")
 then
 	log("apply \'Bus_Trips and Bus_Km update\'");
-	$busTrips.increment(1.0d);
-	$busKm.increment((Double) $km);
+	$busTrips.setScore($busTrips.getScore() + 1.0d);
+	$busKm.setScore($busKm.getScore() + (Double) $km);
 	update($busTrips); 
 	update($busKm);
 end
@@ -93,8 +93,8 @@ when
     $trainKm : PointConcept(name == "Train_Km")
 then
 	log("apply \'Train_Trips and Train_Km update\'");
-	$trainTrips.increment(1.0d);
-	$trainKm.increment((Double) $km);
+	$trainTrips.setScore($trainTrips.getScore() + 1.0d);
+	$trainKm.setScore($trainKm.getScore() + (Double) $km);
 	update($trainTrips); 
 	update($trainKm);
 end
@@ -107,8 +107,8 @@ when
     $carKm : PointConcept(name == "Car_Km")
 then
 	log("apply \'Car_Trips and Car_Km update\'");
-	$carTrips.increment(1.0d);
-	$carKm.increment((Double) $km);
+	$carTrips.setScore($carTrips.getScore() + 1.0d);
+	$carKm.setScore($carKm.getScore() + (Double) $km);
 	update($carTrips); 
 	update($carKm);
 end
@@ -121,7 +121,7 @@ when
     $noCarTrips : PointConcept(name == "NoCar_Trips")
 then
 	log("apply \'NoCar_Trips update\'");
-	$noCarTrips.increment(1.0d);
+	$noCarTrips.setScore($noCarTrips.getScore() + 1.0d);
 	update($noCarTrips); 
 end
 
@@ -132,7 +132,7 @@ when
 	$reccomend : PointConcept(name == "Recommendations")
 then
 	log("apply \'Recommendations update\'");
-	$reccomend.increment(1.0d);
+	$reccomend.setScore($reccomend.getScore() + 1.0d);
 	update($reccomend); 
 end
 
@@ -143,7 +143,7 @@ when
     $PandR : PointConcept(name == "PandR_Trips")
 then
 	log("apply \'PandR_Trips update\'");
-	$PandR.increment(1.0d);
+	$PandR.setScore($PandR.getScore() + 1.0d);
 	update($PandR);
 end
 
