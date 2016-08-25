@@ -2,6 +2,7 @@ package eu.trentorise.game.model
 
 global Double green_walk_points;
 global Double green_bike_points;
+global Double green_transit_points;
 global Double recommendation_bonus;
 global Double green_bus_points_base;
 global Double green_bus_points_step0;
@@ -19,6 +20,14 @@ global Double walk_max;
 global Double bike_max;
 
 
+rule "cable transit update green points"
+when
+	InputData($transit : data["transitDistance"] !=null )
+	$pc : PointConcept(name == "green leaves")
+then
+	log("apply \'public transit update green points\'");
+	$pc.setScore($pc.getScore() + green_transit_points);
+end
 
 rule "public transport update green points"
 when

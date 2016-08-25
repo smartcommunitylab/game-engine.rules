@@ -34,6 +34,8 @@ bus_threshold_step1=5.0
 bus_threshold_step2=10.0
 bus_threshold_step3=30.0
 
+# GREEN POINTS for each Sardagna TRANSIT trip
+green_transit_points=25.0
 
 #Size for fixed-size Badge Collections
 bike_sharing_pioneer_size = 14

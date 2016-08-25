@@ -17,7 +17,7 @@ when
 then
 	log("apply \'50_point_green badge\'");
 	$bc.getBadgeEarned().add('50_point_green');
-	insert( new BadgeNotification($gameId,$playerId,'50_point_green'));
+	insert( new BadgeNotification($gameId,$playerId,"green leaves",'50_point_green'));
 	insert ( new BadgeUpdate("50_point_green", "green leaves"));
 	update( $bc );
 end
@@ -34,7 +34,7 @@ when
 then
 	log("apply \'100_point_green badge\'");
 	$bc.getBadgeEarned().add('100_point_green');
-	insert(new BadgeNotification($gameId,$playerId,'100_point_green'));
+	insert(new BadgeNotification($gameId,$playerId,"green leaves",'100_point_green'));
 	insert ( new BadgeUpdate("100_point_green", "green leaves"));
 	update( $bc );
 end
@@ -50,7 +50,7 @@ when
 then
 	log("apply \'200_point_green badge\'");
 	$bc.getBadgeEarned().add('200_point_green');
-	insert( new BadgeNotification($gameId,$playerId,'200_point_green'));
+	insert( new BadgeNotification($gameId,$playerId,"green leaves",'200_point_green'));
 	insert ( new BadgeUpdate("200_point_green", "green leaves"));
 	update( $bc );
 end
@@ -66,7 +66,7 @@ when
 then
 	log("apply \'400_point_green badge\'");
 	$bc.getBadgeEarned().add('400_point_green');
-	insert( new BadgeNotification($gameId,$playerId,'400_point_green'));
+	insert( new BadgeNotification($gameId,$playerId,"green leaves",'400_point_green'));
 	insert ( new BadgeUpdate("400_point_green", "green leaves"));
 	update( $bc );
 end
@@ -82,7 +82,7 @@ when
 then
 	log("apply \'800_point_green badge\'");
 	$bc.getBadgeEarned().add('800_point_green');
-	insert( new BadgeNotification($gameId,$playerId,'800_point_green'));
+	insert( new BadgeNotification($gameId,$playerId,"green leaves",'800_point_green'));
 	insert ( new BadgeUpdate("800_point_green", "green leaves"));
 	update( $bc );
 end
@@ -98,7 +98,7 @@ when
 then
 	log("apply \'1500_point_green badge\'");
 	$bc.getBadgeEarned().add('1500_point_green');
-	insert( new BadgeNotification($gameId,$playerId,'1500_point_green'));
+	insert( new BadgeNotification($gameId,$playerId,"green leaves",'1500_point_green'));
 	insert ( new BadgeUpdate("1500_point_green", "green leaves"));
 	update( $bc );
 end
@@ -114,7 +114,7 @@ when
 then
 	log("apply \'2500_point_green badge\'");
 	$bc.getBadgeEarned().add('2500_point_green');
-	insert( new BadgeNotification($gameId,$playerId,'2500_point_green'));
+	insert( new BadgeNotification($gameId,$playerId,"green leaves",'2500_point_green'));
 	insert ( new BadgeUpdate("2500_point_green", "green leaves"));
 	update( $bc );
 end
@@ -129,7 +129,7 @@ when
 then
 	log("apply \'5000_point_green badge\'");
 	$bc.getBadgeEarned().add('5000_point_green');
-	insert( new BadgeNotification($gameId,$playerId,'5000_point_green'));
+	insert( new BadgeNotification($gameId,$playerId,"green leaves",'5000_point_green'));
 	insert ( new BadgeUpdate("5000_point_green", "green leaves"));
 	update( $bc );
 end
@@ -144,7 +144,7 @@ when
 then
 	log("apply \'10000_point_green badge\'");
 	$bc.getBadgeEarned().add('10000_point_green');
-	insert( new BadgeNotification($gameId,$playerId,'10000_point_green'));
+	insert( new BadgeNotification($gameId,$playerId,"green leaves",'10000_point_green'));
 	insert ( new BadgeUpdate("10000_point_green", "green leaves"));
 	update( $bc );
 end
@@ -159,7 +159,7 @@ when
 then
 	log("apply \'20000_point_green badge\'");
 	$bc.getBadgeEarned().add('20000_point_green');
-	insert( new BadgeNotification($gameId,$playerId,'20000_point_green'));
+	insert( new BadgeNotification($gameId,$playerId,"green leaves",'20000_point_green'));
 	insert ( new BadgeUpdate("20000_point_green", "green leaves"));
 	update( $bc );
 end

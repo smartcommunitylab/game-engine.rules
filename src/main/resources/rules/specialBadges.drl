@@ -16,7 +16,7 @@ when
 then
 	log("apply \'1_bike_trip badge\'");
 	$bc.getBadgeEarned().add('1_bike_trip');
-	insert( new BadgeNotification($gameId,$playerId,'1_bike_trip'));
+	insert( new BadgeNotification($gameId,$playerId,"bike aficionado",'1_bike_trip'));
 	insert ( new BadgeUpdate("1_bike_trip", "bike aficionado"));
 	update( $bc );
 end
@@ -32,7 +32,7 @@ when
 then	
 	log("apply \'5_bike_trip badge\'");
 	$bc.getBadgeEarned().add('5_bike_trip');
-	insert( new BadgeNotification($gameId,$playerId,'5_bike_trip'));
+	insert( new BadgeNotification($gameId,$playerId,"bike aficionado",'5_bike_trip'));
 	insert ( new BadgeUpdate("5_bike_trip", "bike aficionado"));
 	update( $bc );
 end
@@ -48,7 +48,7 @@ when
 then
 	log("apply \'10_bike_trip badge\'");
 	$bc.getBadgeEarned().add('10_bike_trip');
-	insert( new BadgeNotification($gameId,$playerId,'10_bike_trip'));
+	insert( new BadgeNotification($gameId,$playerId,"bike aficionado",'10_bike_trip'));
 	insert ( new BadgeUpdate("10_bike_trip", "bike aficionado"));
 	update( $bc );
 end
@@ -64,7 +64,7 @@ when
 then
 	log("apply \'25_bike_trip badge\'");
 	$bc.getBadgeEarned().add('25_bike_trip');
-	insert( new BadgeNotification($gameId,$playerId,'25_bike_trip'));
+	insert( new BadgeNotification($gameId,$playerId,"bike aficionado",'25_bike_trip'));
 	insert ( new BadgeUpdate("25_bike_trip", "bike aficionado"));
 	update( $bc );
 end
@@ -80,7 +80,7 @@ when
 then
 	log("apply \'50_bike_trip badge\'");
 	$bc.getBadgeEarned().add('50_bike_trip');
-	insert( new BadgeNotification($gameId,$playerId,'50_bike_trip'));
+	insert( new BadgeNotification($gameId,$playerId,"bike aficionado",'50_bike_trip'));
 	insert ( new BadgeUpdate("50_bike_trip", "bike aficionado"));
 	update( $bc );
 end
@@ -95,7 +95,7 @@ when
 then
 	log("apply \'100_bike_trip badge\'");
 	$bc.getBadgeEarned().add('100_bike_trip');
-	insert( new BadgeNotification($gameId,$playerId,'100_bike_trip'));
+	insert( new BadgeNotification($gameId,$playerId,"bike aficionado",'100_bike_trip'));
 	insert ( new BadgeUpdate("100_bike_trip", "bike aficionado"));
 	update( $bc );
 end
@@ -110,7 +110,7 @@ when
 then
 	log("apply \'200_bike_trip badge\'");
 	$bc.getBadgeEarned().add('200_bike_trip');
-	insert( new BadgeNotification($gameId,$playerId,'200_bike_trip'));
+	insert( new BadgeNotification($gameId,$playerId,"bike aficionado",'200_bike_trip'));
 	insert ( new BadgeUpdate("200_bike_trip", "bike aficionado"));
 	update( $bc );
 end
@@ -125,7 +125,7 @@ when
 then
 	log("apply \'500_bike_trip badge\'");
 	$bc.getBadgeEarned().add('500_bike_trip');
-	insert( new BadgeNotification($gameId,$playerId,'500_bike_trip'));
+	insert( new BadgeNotification($gameId,$playerId,"bike aficionado",'500_bike_trip'));
 	insert ( new BadgeUpdate("500_bike_trip", "bike aficionado"));
 	update( $bc );
 end
@@ -143,7 +143,7 @@ when
 then
 	log("apply  \'"+$startBS+"_BSstation badge\'");
 	$bc.getBadgeEarned().add((String) $startBS+'_BSstation');
-	insert( new BadgeNotification($gameId,$playerId,$startBS+'_BSstation'));
+	insert( new BadgeNotification($gameId,$playerId,"bike sharing pioneer",$startBS+'_BSstation'));
 	insert ( new BadgeUpdate((String) $startBS+"_BSstation", "bike sharing pioneer"));	
 	update( $bc );
 end
@@ -159,7 +159,7 @@ when
 then
 	log("apply  \'"+$endBS+"_BSstation badge\'");
 	$bc.getBadgeEarned().add((String) $endBS+'_BSstation');
-	insert( new BadgeNotification($gameId,$playerId,$endBS+'_BSstation'));
+	insert( new BadgeNotification($gameId,$playerId,"bike sharing pioneer",$endBS+'_BSstation'));
 	insert ( new BadgeUpdate((String) $endBS+"_BSstation", "bike sharing pioneer"));		
 	update( $bc );
 end
@@ -181,7 +181,7 @@ then
 	if ($busTrips.getScore() + $trainTrips.getScore() >= 5.0d) {
 		log("apply \'5_pt_trip badge\'");
 		$bc.getBadgeEarned().add('5_pt_trip');
-		insert( new BadgeNotification($gameId,$playerId,'5_pt_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"public transport aficionado",'5_pt_trip'));
 		insert( new BadgeUpdate("5_pt_trip", "public transport aficionado"));	
 		update( $bc );
 	}
@@ -200,7 +200,7 @@ then
 	if ($busTrips.getScore() + $trainTrips.getScore() >= 10.0d) {
 		log("apply \'10_pt_trip badge\'");
 		$bc.getBadgeEarned().add('10_pt_trip');
-		insert( new BadgeNotification($gameId,$playerId,'10_pt_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"public transport aficionado",'10_pt_trip'));
 		insert( new BadgeUpdate("10_pt_trip", "public transport aficionado"));	
 		update( $bc );
 	}
@@ -218,7 +218,7 @@ then
 	if ($busTrips.getScore() + $trainTrips.getScore() >= 25.0d) {
 		log("apply \'25_pt_trip badge\'");
 		$bc.getBadgeEarned().add('25_pt_trip');
-		insert( new BadgeNotification($gameId,$playerId,'25_pt_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"public transport aficionado",'25_pt_trip'));
 		insert( new BadgeUpdate("25_pt_trip", "public transport aficionado"));	
 		update( $bc );
 	}
@@ -236,7 +236,7 @@ then
 	if ($busTrips.getScore() + $trainTrips.getScore() >= 50.0d) {
 		log("apply \'50_pt_trip badge\'");
 		$bc.getBadgeEarned().add('50_pt_trip');
-		insert( new BadgeNotification($gameId,$playerId,'50_pt_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"public transport aficionado",'50_pt_trip'));
 		insert( new BadgeUpdate("50_pt_trip", "public transport aficionado"));	
 		update( $bc );
 	}
@@ -254,7 +254,7 @@ then
 	if ($busTrips.getScore() + $trainTrips.getScore() >= 100.0d) {
 		log("apply \'100_pt_trip badge\'");
 		$bc.getBadgeEarned().add('100_pt_trip');
-		insert( new BadgeNotification($gameId,$playerId,'100_pt_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"public transport aficionado",'100_pt_trip'));
 		insert( new BadgeUpdate("100_pt_trip", "public transport aficionado"));	
 		update( $bc );
 	}
@@ -272,7 +272,7 @@ then
 	if ($busTrips.getScore() + $trainTrips.getScore() >= 200.0d) {
 		log("apply \'200_pt_trip badge\'");
 		$bc.getBadgeEarned().add('200_pt_trip');
-		insert( new BadgeNotification($gameId,$playerId,'200_pt_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"public transport aficionado",'200_pt_trip'));
 		insert( new BadgeUpdate("200_pt_trip", "public transport aficionado"));	
 		update( $bc );
 	}
@@ -290,7 +290,7 @@ then
 	if ($busTrips.getScore() + $trainTrips.getScore() >= 500.0d) {
 		log("apply \'500_pt_trip badge\'");
 		$bc.getBadgeEarned().add('500_pt_trip');
-		insert( new BadgeNotification($gameId,$playerId,'500_pt_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"public transport aficionado",'500_pt_trip'));
 		insert( new BadgeUpdate("500_pt_trip", "public transport aficionado"));	
 		update( $bc );
 	}
@@ -311,7 +311,7 @@ when
 then
 	log("apply  \'"+$park+"_parking badge\'");
 	$bc.getBadgeEarned().add((String) $park+'_parking');
-	insert( new BadgeNotification($gameId,$playerId,$park+'_parking'));
+	insert( new BadgeNotification($gameId,$playerId,"park and ride pioneer",$park+'_parking'));
 	insert ( new BadgeUpdate((String) $park+"_parking", "park and ride pioneer"));		
 	update( $bc );
 end
@@ -331,7 +331,7 @@ then
 	if ($zeroImpact.getScore() >= 1.0d) {
 		log("apply \'1_zero_impact_trip\'");
 		$bc.getBadgeEarned().add('1_zero_impact_trip');
-		insert( new BadgeNotification($gameId,$playerId,'1_zero_impact_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"sustainable life",'1_zero_impact_trip'));
 		insert( new BadgeUpdate("1_zero_impact_trip", "sustainable life"));	
 		update( $bc );
 	}
@@ -349,7 +349,7 @@ then
 	if ($zeroImpact.getScore() >= 5.0d) {
 		log("apply \'5_zero_impact_trip\'");
 		$bc.getBadgeEarned().add('5_zero_impact_trip');
-		insert( new BadgeNotification($gameId,$playerId,'5_zero_impact_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"sustainable life",'5_zero_impact_trip'));
 		insert( new BadgeUpdate("5_zero_impact_trip", "sustainable life"));	
 		update( $bc );
 	}
@@ -367,7 +367,7 @@ then
 	if ($zeroImpact.getScore() >= 10.0d) {
 		log("apply \'10_zero_impact_trip\'");
 		$bc.getBadgeEarned().add('10_zero_impact_trip');
-		insert( new BadgeNotification($gameId,$playerId,'10_zero_impact_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"sustainable life",'10_zero_impact_trip'));
 		insert( new BadgeUpdate("10_zero_impact_trip", "sustainable life"));	
 		update( $bc );
 	}
@@ -384,7 +384,7 @@ then
 	if ($zeroImpact.getScore() >= 25.0d) {
 		log("apply \'25_zero_impact_trip\'");
 		$bc.getBadgeEarned().add('25_zero_impact_trip');
-		insert( new BadgeNotification($gameId,$playerId,'25_zero_impact_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"sustainable life",'25_zero_impact_trip'));
 		insert( new BadgeUpdate("25_zero_impact_trip", "sustainable life"));	
 		update( $bc );
 	}
@@ -402,7 +402,7 @@ then
 	if ($zeroImpact.getScore() >= 50.0d) {
 		log("apply \'50_zero_impact_trip\'");
 		$bc.getBadgeEarned().add('50_zero_impact_trip');
-		insert( new BadgeNotification($gameId,$playerId,'50_zero_impact_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"sustainable life",'50_zero_impact_trip'));
 		insert( new BadgeUpdate("50_zero_impact_trip", "sustainable life"));	
 		update( $bc );
 	}
@@ -419,7 +419,7 @@ then
 	if ($zeroImpact.getScore() >= 100.0d) {
 		log("apply \'100_zero_impact_trip\'");
 		$bc.getBadgeEarned().add('100_zero_impact_trip');
-		insert( new BadgeNotification($gameId,$playerId,'100_zero_impact_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"sustainable life",'100_zero_impact_trip'));
 		insert( new BadgeUpdate("100_zero_impact_trip", "sustainable life"));	
 		update( $bc );
 	}
@@ -436,7 +436,7 @@ then
 	if ($zeroImpact.getScore() >= 200.0d) {
 		log("apply \'200_zero_impact_trip\'");
 		$bc.getBadgeEarned().add('200_zero_impact_trip');
-		insert( new BadgeNotification($gameId,$playerId,'200_zero_impact_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"sustainable life",'200_zero_impact_trip'));
 		insert( new BadgeUpdate("200_zero_impact_trip", "sustainable life"));	
 		update( $bc );
 	}
@@ -453,7 +453,7 @@ then
 	if ($zeroImpact.getScore() >= 500.0d) {
 		log("apply \'500_zero_impact_trip\'");
 		$bc.getBadgeEarned().add('500_zero_impact_trip');
-		insert( new BadgeNotification($gameId,$playerId,'500_zero_impact_trip'));
+		insert( new BadgeNotification($gameId,$playerId,"sustainable life",'500_zero_impact_trip'));
 		insert( new BadgeUpdate("500_zero_impact_trip", "sustainable life"));	
 		update( $bc );
 	}
@@ -475,7 +475,7 @@ then
 	if ($reccom.getScore() >= 3.0d) {
 		log("apply \'3_recommendations badge\'");
 		$bc.getBadgeEarned().add('3_recommendations');
-		insert( new BadgeNotification($gameId,$playerId,'3_recommendations'));
+		insert( new BadgeNotification($gameId,$playerId,"recommendations",'3_recommendations'));
 		insert( new BadgeUpdate("3_recommendations", "recommendations"));	
 		update( $bc );
 		$pc.increment(50.0d);
@@ -495,7 +495,7 @@ then
 	if ($reccom.getScore() >= 5.0d) {
 		log("apply \'5_recommendations badge\'");
 		$bc.getBadgeEarned().add('5_recommendations');
-		insert( new BadgeNotification($gameId,$playerId,'5_recommendations'));
+		insert( new BadgeNotification($gameId,$playerId,"recommendations",'5_recommendations'));
 		insert( new BadgeUpdate("5_recommendations", "recommendations"));	
 		update( $bc );
 		$pc.increment(100.0d);
@@ -515,7 +515,7 @@ then
 	if ($reccom.getScore() >= 10.0d) {
 		log("apply \'10_recommendations badge\'");
 		$bc.getBadgeEarned().add('10_recommendations');
-		insert( new BadgeNotification($gameId,$playerId,'10_recommendations'));
+		insert( new BadgeNotification($gameId,$playerId,"recommendations",'10_recommendations'));
 		insert( new BadgeUpdate("10_recommendations", "recommendations"));	
 		update( $bc );
 		$pc.increment(200.0d);
@@ -535,7 +535,7 @@ then
 	if ($reccom.getScore() >= 25.0d) {
 		log("apply \'25_recommendations badge\'");
 		$bc.getBadgeEarned().add('25_recommendations');
-		insert( new BadgeNotification($gameId,$playerId,'25_recommendations'));
+		insert( new BadgeNotification($gameId,$playerId,"recommendations",'25_recommendations'));
 		insert( new BadgeUpdate("25_recommendations", "recommendations"));	
 		update( $bc );
 		$pc.increment(300.0d);

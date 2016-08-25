@@ -10,7 +10,8 @@ when
 	InputData (($walk : data["walkDistance"] != null || $bike : data["bikeDistance"] != null) &&
 		($bus : data["busDistance"] == null || ((Double)$bus)==0) && 
 		($train : data["trainDistance"] == null || ((Double)$train)==0) &&
-		($car : data["carDistance"]==null || ((Double)$car)==0))
+		($car : data["carDistance"]==null || ((Double)$car)==0) &&
+		($transit : data["transitDistance"]==null || ((Double)$transit)==0))
 		$zeroImpactTrips : PointConcept(name == "ZeroImpact_Trips")
 then
 	Boolean incremented= new Boolean(false);
@@ -117,12 +118,31 @@ rule "update no-car counters"
 lock-on-active
 when
 	Action ($id : id == "save_itinerary")
-    InputData( $km : data["carDistance"] == null)
+    InputData( $km : data["carDistance"] == null, $walk : data["walkDistance"], 
+    	$transit : data["transitDistance"],
+    	$bus : data["busDistance"], $bike : data["bikeDistance"], $train : data["trainDistance"])
     $noCarTrips : PointConcept(name == "NoCar_Trips")
 then
-	log("apply \'NoCar_Trips update\'");
-	$noCarTrips.setScore($noCarTrips.getScore() + 1.0d);
-	update($noCarTrips); 
+	boolean isValidNoCar = false;
+	if ($walk == null || (Double)$walk >= walk_min)
+		isValidNoCar = true;
+		
+	if (isValidNoCar == false) {
+		if ($bus != null && (Double)$bus > 0) 
+			isValidNoCar = true;
+		else if ($bike != null && (Double)$bike > 0)
+			isValidNoCar = true;
+		else if ($train != null && (Double)$train > 0)
+			isValidNoCar = true;
+		else if ($transit != null && (Double)$transit > 0)
+			isValidNoCar = true;
+	}
+	
+	if (isValidNoCar == true) {
+		log("apply \'NoCar_Trips update\'");
+		$noCarTrips.setScore($noCarTrips.getScore() + 1.0d);
+		update($noCarTrips); 
+	}
 end
 
 rule "update recommendation counters"
