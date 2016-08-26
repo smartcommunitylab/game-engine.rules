@@ -3,7 +3,7 @@ package eu.trentorise.game.model
 rule 'ch_complete_badge_collection_check'
 when
 	$challenge : ChallengeConcept( modelName == "completeBadgeCollection", $target: fields["target"] != null, $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], $bcName : fields["badgeCollectionName"], isCompleted() != true )
-	$bc : BadgeCollectionConcept(name == $bcName, badgeEarned.size() >= $target)
+	$bc : BadgeCollectionConcept(name == $bcName, badgeEarned.size() >= (int)$target)
 	$pc : PointConcept(name == (String) $bonusPointType)
 then
 	log('complete_badge_collection COMPLETED');
