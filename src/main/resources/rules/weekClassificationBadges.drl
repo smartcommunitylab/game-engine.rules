@@ -24,7 +24,7 @@ then
 	}
 	insert( new BadgeNotification($gameId,$playerId,"leaderboard top 3",'1st_of_the_week'));
 	insert( new BadgeUpdate("1st_of_the_week", "leaderboard top 3"));	
-	$pc.increment(100.0d);
+	$pc.setScore($pc.getScore() + 100.0d);
     update($pc); 
 end
 
@@ -45,7 +45,7 @@ then
 	}
 	insert( new BadgeNotification($gameId,$playerId,"leaderboard top 3",'2nd_of_the_week'));
 	insert( new BadgeUpdate("2nd_of_the_week", "leaderboard top 3"));	
-	$pc.increment(80.0d);
+	$pc.setScore($pc.getScore() + 80.0d);
     update($pc); 
 end
 
@@ -66,7 +66,7 @@ then
 	}
 	insert( new BadgeNotification($gameId,$playerId,"leaderboard top 3",'3rd_of_the_week'));
 	insert( new BadgeUpdate("3rd_of_the_week", "leaderboard top 3"));	
-	$pc.increment(60.0d);
+	$pc.setScore($pc.getScore() + 60.0d);
     update($pc);
 end
     

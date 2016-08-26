@@ -8,7 +8,7 @@ when
 then
 	log('survey COMPLETED');
 	$challenge.completed();
-	$pc.increment((Double) $bonusScore);
+	$pc.setScore($pc.getScore() + (Double) $bonusScore);
 	update($pc);
 	update($challenge);
 end

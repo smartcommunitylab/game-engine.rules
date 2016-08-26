@@ -167,5 +167,13 @@ then
 	update($PandR);
 end
 
-//rule "update Cable counters"
-//TODO if needed..
+rule "update Cable counters"
+lock-on-active
+when
+	InputData( $km : data["transitDistance"] != null)
+    $transitTrips : PointConcept(name == "Transit_Trips")
+then
+	log("apply \'Transit_Trips update\'");
+	$transitTrips.setScore($transitTrips.getScore() + 1.0d);
+	update($transitTrips); 
+end

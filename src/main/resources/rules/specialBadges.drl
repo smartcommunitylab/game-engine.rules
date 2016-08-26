@@ -478,7 +478,7 @@ then
 		insert( new BadgeNotification($gameId,$playerId,"recommendations",'3_recommendations'));
 		insert( new BadgeUpdate("3_recommendations", "recommendations"));	
 		update( $bc );
-		$pc.increment(50.0d);
+		$pc.setScore($pc.getScore() + 50.0d);
     	update($pc);
 	}
 end
@@ -498,7 +498,7 @@ then
 		insert( new BadgeNotification($gameId,$playerId,"recommendations",'5_recommendations'));
 		insert( new BadgeUpdate("5_recommendations", "recommendations"));	
 		update( $bc );
-		$pc.increment(100.0d);
+		$pc.setScore($pc.getScore() + 100.0d);
     	update($pc); 
 	}
 end
@@ -517,8 +517,8 @@ then
 		$bc.getBadgeEarned().add('10_recommendations');
 		insert( new BadgeNotification($gameId,$playerId,"recommendations",'10_recommendations'));
 		insert( new BadgeUpdate("10_recommendations", "recommendations"));	
-		update( $bc );
-		$pc.increment(200.0d);
+		update( $bc );;
+		$pc.setScore($pc.getScore() + 200.0d);
     	update($pc);
 	}
 end
@@ -538,7 +538,7 @@ then
 		insert( new BadgeNotification($gameId,$playerId,"recommendations",'25_recommendations'));
 		insert( new BadgeUpdate("25_recommendations", "recommendations"));	
 		update( $bc );
-		$pc.increment(300.0d);
+		$pc.setScore($pc.getScore() + 300.0d);
     	update($pc);
 	}
 end

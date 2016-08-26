@@ -8,7 +8,7 @@ when
 then
 	log('complete_badge_collection COMPLETED');
 	$challenge.completed();
-	$pc.increment((Double) $bonusScore);
+	$pc.setScore($pc.getScore() + (Double) $bonusScore);
 	update($pc);
 	update($challenge);
 end
