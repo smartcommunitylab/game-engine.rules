@@ -16,7 +16,7 @@ when
 then
 	Boolean incremented= new Boolean(false);
 	if($walk!=null){
-	if((Double) $walk > walk_min){
+	if((Double) $walk >= walk_min){
 		log("apply \'ZeroImpact_Trips update\'");
 		$zeroImpactTrips.setScore($zeroImpactTrips.getScore() + 1.0d);
 		update($zeroImpactTrips);
