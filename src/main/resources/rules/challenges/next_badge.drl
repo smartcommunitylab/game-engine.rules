@@ -3,7 +3,7 @@ package eu.trentorise.game.model
 rule 'ch_next_badge_check'
 when
 	$challenge : ChallengeConcept( modelName == "nextBadge", $target: fields["target"] != null, $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], $bcName : fields["badgeCollectionName"], $counter: fields["initialBadgeNum"], isCompleted() != true )
-	$bc : BadgeCollectionConcept(name == $bcName, badgeEarned.size() == $target + $counter)
+	$bc : BadgeCollectionConcept(name == $bcName, $badges : badgeEarned, badgeEarned.size() == $target + $counter)
 	$pc : PointConcept(name == (String) $bonusPointType)
 then
 	log('nextBadge COMPLETED');
