@@ -1,6 +1,7 @@
 package eu.trentorise.game.model
 
 rule 'ch_absoluteIncrement_check'
+	salience -2000
 when
 	$challenge : ChallengeConcept( modelName == "absoluteIncrement", $counter: fields["counterName"], $target: fields["target"], $periodName: fields["periodName"] , $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )
 	$pc1 : PointConcept(name == (String) $counter, $score : score, getPeriodCurrentScore((String)$periodName) >= $target)

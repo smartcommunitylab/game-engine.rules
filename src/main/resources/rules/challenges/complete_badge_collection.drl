@@ -1,6 +1,7 @@
 package eu.trentorise.game.model
 
 rule 'ch_complete_badge_collection_check'
+	salience -4000
 when
 	$challenge : ChallengeConcept( modelName == "completeBadgeCollection", $target: fields["target"] != null, $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], $bcName : fields["badgeCollectionName"], isCompleted() != true )
 	$bc : BadgeCollectionConcept(name == $bcName, $badges : badgeEarned, badgeEarned.size() >= (int)$target)
