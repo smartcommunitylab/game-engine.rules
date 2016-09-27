@@ -15,7 +15,6 @@ when
     Game( $gameId: id)
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "leaderboard top 3")
-    $pc : PointConcept(name == "green leaves")
 then
 	log("apply \'1st_of_the_week\'");
 	if (! $bc.getBadgeEarned().contains("1st_of_the_week")) {
@@ -34,7 +33,6 @@ when
     Game( $gameId: id)
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "leaderboard top 3")
-    $pc : PointConcept(name == "green leaves")
 then
 	log("apply \'2nd_of_the_week\'");
 	if (! $bc.getBadgeEarned().contains("2nd_of_the_week")) {
@@ -53,7 +51,6 @@ when
     Game( $gameId: id)
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "leaderboard top 3")
-    $pc : PointConcept(name == "green leaves")
 then
 	log("apply \'3rd_of_the_week\'");
 	if (! $bc.getBadgeEarned().contains("3rd_of_the_week")) {
