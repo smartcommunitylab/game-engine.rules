@@ -18,7 +18,17 @@ global Double bus_threshold_step3;
 global Double walk_min;
 global Double walk_max;
 global Double bike_max;
+global java.util.ArrayList parkings;
 
+
+rule "P&R parkings update green points"
+when
+	InputData( $park : data['park'] != null, parkings.contains((String)$park))
+	$pc : PointConcept(name == "green leaves")
+then
+	log("apply \'P&R parkings update green points\'");
+	$pc.setScore($pc.getScore() + 10.0);
+end
 
 rule "cable transit update green points"
 when
