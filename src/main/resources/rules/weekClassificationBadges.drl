@@ -15,7 +15,6 @@ when
     Game( $gameId: id)
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "leaderboard top 3")
-    $pc : PointConcept(name == "green leaves")
 then
 	log("apply \'1st_of_the_week\'");
 	if (! $bc.getBadgeEarned().contains("1st_of_the_week")) {
@@ -24,8 +23,6 @@ then
 	}
 	insert( new BadgeNotification($gameId,$playerId,"leaderboard top 3",'1st_of_the_week'));
 	insert( new BadgeUpdate("1st_of_the_week", "leaderboard top 3"));	
-	$pc.setScore($pc.getScore() + 100.0d);
-    update($pc); 
 end
 
 rule "2nd of the week"
@@ -36,7 +33,6 @@ when
     Game( $gameId: id)
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "leaderboard top 3")
-    $pc : PointConcept(name == "green leaves")
 then
 	log("apply \'2nd_of_the_week\'");
 	if (! $bc.getBadgeEarned().contains("2nd_of_the_week")) {
@@ -45,8 +41,6 @@ then
 	}
 	insert( new BadgeNotification($gameId,$playerId,"leaderboard top 3",'2nd_of_the_week'));
 	insert( new BadgeUpdate("2nd_of_the_week", "leaderboard top 3"));	
-	$pc.setScore($pc.getScore() + 80.0d);
-    update($pc); 
 end
 
 rule "3rd of the week"
@@ -57,7 +51,6 @@ when
     Game( $gameId: id)
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "leaderboard top 3")
-    $pc : PointConcept(name == "green leaves")
 then
 	log("apply \'3rd_of_the_week\'");
 	if (! $bc.getBadgeEarned().contains("3rd_of_the_week")) {
@@ -66,8 +59,6 @@ then
 	}
 	insert( new BadgeNotification($gameId,$playerId,"leaderboard top 3",'3rd_of_the_week'));
 	insert( new BadgeUpdate("3rd_of_the_week", "leaderboard top 3"));	
-	$pc.setScore($pc.getScore() + 60.0d);
-    update($pc);
 end
     
     

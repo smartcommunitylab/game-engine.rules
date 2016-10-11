@@ -61,11 +61,13 @@ end
 rule "0-impact - sustainable - walk - bike - update green points"
 when
 	Action ($id : id == "save_itinerary")
-	InputData($bike : data["bikeDistance"], $walk : data["walkDistance"], $bus : data["busDistance"], $train : data["trainDistance"], $car : data["carDistance"])
+	InputData($bike : data["bikeDistance"], $walk : data["walkDistance"], $bus : data["busDistance"], 
+		$cable : data["transitDistance"], $train : data["trainDistance"], $car : data["carDistance"])
 	$pc : PointConcept( name == "green leaves")
 then
 	log("apply \'0-impact - sustainable - walk - bike - update green points\'");
-	boolean zeroImpact = ($walk != null || $bike != null) && (($bus == null || ((Double)$bus) == 0) &&  ($car == null || ((Double)$car) == 0) && ($train == null || ((Double)$train) == 0));
+	boolean zeroImpact = ($walk != null || $bike != null) && (($bus == null || ((Double)$bus) == 0) 
+		&&  ($car == null || ((Double)$car) == 0) && ($train == null || ((Double)$train) == 0) && ($cable == null || ((Double)$cable) == 0));
 	
 	Double score_zeroImpact = 0.0;
 	
