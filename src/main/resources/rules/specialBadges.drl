@@ -2,6 +2,7 @@ package eu.trentorise.game.model
 
 import eu.trentorise.game.notification.BadgeNotification;
 
+global java.util.ArrayList parkings;
 
 /* ***************************************************************************
 BIKE AFICIONADO COLLECTION  
@@ -304,7 +305,7 @@ PARK & RIDE PIONEER COLLECTION
 rule "park badge"
 	salience -1000
 when
-    InputData( $park : data['park'] != null)
+    InputData( $park : data['park'] != null, parkings.contains((String)$park) )
     $bc : BadgeCollectionConcept(name == "park and ride pioneer", badgeEarned not contains ($park+'_parking'))
     Game( $gameId: id)
     Player( $playerId : id)
