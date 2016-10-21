@@ -1,0 +1,57 @@
+package eu.trentorise.game.model
+
+//list any import classes here.
+
+//declare any global variables here
+
+rule "poiReached_rule"
+when
+	Action(id == 'poi_reached', $poi : data['poiName'], $time : data["poiTime"])
+	$challenge : ChallengeConcept( modelName == "poiCheckin", isCompleted() != true, $poiState : fields["poiState"],
+		$target : fields["poiName"], $startTime : fields["startEvent"], $endTime : fields["endEvent"] )
+then
+	if ($time == null)
+		$time = System.currentTimeMillis();
+	if ($time >= $startTime && $time <= $endTime && ((String)$poi).equals((String)$target)) {
+		(Boolean) $poiState = true;
+		update($challenge);
+	}
+	else
+		(Boolean) $poiState = false;
+		
+end
+
+
+rule "poiCheckin_rule"
+when
+	Action(id == 'checkin', $ci : data['checkinName'], $time : data["checkinTime"])
+	$challenge : ChallengeConcept( modelName == "poiCheckin", isCompleted() != true, $eventState : fields["eventState"],
+		$target : fields["eventName"], $startTime : fields["startEvent"], $endTime : fields["endEvent"] )	
+then
+	if ($time == null)
+		$time = System.currentTimeMillis();
+	 if ($time >= $startTime && $time <= $endTime && ((String)$ci).equals((String)$target)) {
+		(Boolean) $eventState = true;
+		update($challenge);
+	}
+	else
+		(Boolean) $eventState = false;
+end
+
+
+rule "ch_poiCheckin_check"
+when
+	$challenge : ChallengeConcept( modelName == "poiCheckin", isCompleted() != true, 
+		$poiState : fields["poiState"], $eventState : fields["eventState"],
+		$bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"] )
+	$pc : PointConcept(name == (String) $bonusPointType)
+then
+	if ((Boolean)$poiState && (Boolean)$eventState) {
+		log('poiCheckin COMPLETED');
+		$challenge.completed();
+		$pc.setScore($pc.getScore() + (Double) $bonusScore);
+		update($pc);
+		update($challenge);
+	}
+end
+	
