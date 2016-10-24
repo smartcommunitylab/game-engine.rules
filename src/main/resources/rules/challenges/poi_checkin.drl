@@ -8,21 +8,13 @@ rule "poiReached_rule"
 lock-on-active
 when
 	Action( $id : id == "poi_reached" )
-	InputData( $poi : data["poiName"], $time : data["poiTime"])
+	InputData( $poi : data["poiName"] )
 	$challenge : ChallengeConcept( modelName == "poiCheckin", isCompleted() != true, $poiState : fields["poiState"],
-		$target : fields["poiName"], $startTime : fields["startEvent"], $endTime : fields["endEvent"] )
+		$target : fields["poiName"] )
 then
-	if ($time == null)
-		$time = System.currentTimeMillis();
-	if ((Long)$time >= (Long)$startTime && (Long)$time <= (Long)$endTime && ((String)$poi).equals((String)$target)) {
-		$challenge.getFields().put("poiState",(Boolean) true);
-		update($challenge);
-		log("poiReached "+$target);
-	}
-	else {
-		$challenge.getFields().put("poiState",(Boolean) false);
-	}
-		
+	$challenge.getFields().put("poiState",(Boolean) true);
+	update($challenge);
+	log("poiReached "+$target);
 end
 
 
@@ -30,20 +22,13 @@ rule "poiCheckin_rule"
 lock-on-active
 when
 	Action( $id : id == 'checkin' ) 
-	InputData( $ci : data['checkinName'], $time : data["checkinTime"])
+	InputData( $ci : data['checkinName'] )
 	$challenge : ChallengeConcept( modelName == "poiCheckin", isCompleted() != true, $eventState : fields["eventState"],
-		$target : fields["eventName"], $startTime : fields["startEvent"], $endTime : fields["endEvent"] )	
+		$target : fields["eventName"] )	
 then
-	if ($time == null)
-		$time = System.currentTimeMillis();
-	 if ((Long)$time >= (Long)$startTime && (Long)$time <= (Long)$endTime && ((String)$ci).equals((String)$target)) {
-		$challenge.getFields().put("eventState",(Boolean) true);
-		update($challenge);
-		log("poiCheckin "+$target);		
-	}
-	else {
-		$challenge.getFields().put("eventState",(Boolean) false);
-	}
+	$challenge.getFields().put("eventState", (Boolean) true);
+	update($challenge);
+	log("poiCheckin "+$target);		
 end
 
 
