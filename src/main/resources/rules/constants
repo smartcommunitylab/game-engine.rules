@@ -16,6 +16,9 @@
 # java.util.ArrayList (i.e var=park,street,bikestation)
 
 
+# GREEN POINTS for special actions
+green_Trento_Fiera_registration_points=50.0
+
 # GREEN POINTS for Walk, Bike, BikeSharing
 green_walk_points=10.0
 green_bike_points=5.0

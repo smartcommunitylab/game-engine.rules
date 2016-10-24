@@ -1,6 +1,7 @@
 //created on: Oct 24, 2016
 package eu.trentorise.game.model
 
+global Double green_Trento_Fiera_registration_points
 
 rule "green leaves for user registration rule"
 lock-on-active
@@ -9,7 +10,7 @@ when
 	$pc : PointConcept(name == "green leaves")
 	$cd: CustomData($reg : this['checkin_new_user_Trento_Fiera'] != true)
 then
-	$pc.setScore($pc.getScore() + 50);
+	$pc.setScore($pc.getScore() + green_Trento_Fiera_registration_points);
 	$cd.put('checkin_new_user_Trento_Fiera',true);
 	update($pc);
 	log("green leaves for user registration rule COMPLETED");		
