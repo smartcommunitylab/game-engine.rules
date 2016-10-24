@@ -5,41 +5,50 @@ package eu.trentorise.game.model
 //declare any global variables here
 
 rule "poiReached_rule"
+lock-on-active
 when
-	Action(id == 'poi_reached', $poi : data['poiName'], $time : data["poiTime"])
+	Action( $id : id == "poi_reached" )
+	InputData( $poi : data["poiName"], $time : data["poiTime"])
 	$challenge : ChallengeConcept( modelName == "poiCheckin", isCompleted() != true, $poiState : fields["poiState"],
 		$target : fields["poiName"], $startTime : fields["startEvent"], $endTime : fields["endEvent"] )
 then
 	if ($time == null)
 		$time = System.currentTimeMillis();
-	if ($time >= $startTime && $time <= $endTime && ((String)$poi).equals((String)$target)) {
-		(Boolean) $poiState = true;
+	if ((Long)$time >= (Long)$startTime && (Long)$time <= (Long)$endTime && ((String)$poi).equals((String)$target)) {
+		$challenge.getFields().put("poiState",(Boolean) true);
 		update($challenge);
+		log("poiReached "+$target);
 	}
-	else
-		(Boolean) $poiState = false;
+	else {
+		$challenge.getFields().put("poiState",(Boolean) false);
+	}
 		
 end
 
 
 rule "poiCheckin_rule"
+lock-on-active
 when
-	Action(id == 'checkin', $ci : data['checkinName'], $time : data["checkinTime"])
+	Action( $id : id == 'checkin' ) 
+	InputData( $ci : data['checkinName'], $time : data["checkinTime"])
 	$challenge : ChallengeConcept( modelName == "poiCheckin", isCompleted() != true, $eventState : fields["eventState"],
 		$target : fields["eventName"], $startTime : fields["startEvent"], $endTime : fields["endEvent"] )	
 then
 	if ($time == null)
 		$time = System.currentTimeMillis();
-	 if ($time >= $startTime && $time <= $endTime && ((String)$ci).equals((String)$target)) {
-		(Boolean) $eventState = true;
+	 if ((Long)$time >= (Long)$startTime && (Long)$time <= (Long)$endTime && ((String)$ci).equals((String)$target)) {
+		$challenge.getFields().put("eventState",(Boolean) true);
 		update($challenge);
+		log("poiCheckin "+$target);		
 	}
-	else
-		(Boolean) $eventState = false;
+	else {
+		$challenge.getFields().put("eventState",(Boolean) false);
+	}
 end
 
 
 rule "ch_poiCheckin_check"
+lock-on-active
 when
 	$challenge : ChallengeConcept( modelName == "poiCheckin", isCompleted() != true, 
 		$poiState : fields["poiState"], $eventState : fields["eventState"],
