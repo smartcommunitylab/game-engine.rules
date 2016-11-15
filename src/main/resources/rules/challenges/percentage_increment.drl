@@ -9,7 +9,13 @@ when
 then
 	log('percentageIncrement COMPLETED');
 	$challenge.completed();
-	$pc.setScore($pc.getScore() + (Double) $bonusScore);
+	if ($bonusScore instanceof Long) {
+	     $pc.setScore($pc.getScore() + (Long)$bonusScore );
+	} else if ($bonusScore instanceof Integer) {
+	     $pc.setScore($pc.getScore() + (Integer)$bonusScore );
+	} else {
+	   $pc.setScore($pc.getScore() +  (Double)$bonusScore );
+	}
 	update($pc);
 	update($challenge);
 end
