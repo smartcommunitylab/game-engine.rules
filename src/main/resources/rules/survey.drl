@@ -4,10 +4,10 @@ rule 'ch_final_survey_check'
 when
 	Action(id == 'survey_complete')
 	$pc : PointConcept(name == "green leaves")
-	$cd: CustomData($reg : this['final_survey_complete'] != true)		
+	$cd: CustomData(this['final_survey_complete'] != true)		
 then
 	log('final survey COMPLETED');
-	$pc.setScore($pc.getScore() + (Double) 350d);
+	$pc.setScore($pc.getScore() + 350d);
 	$cd.put('final_survey_complete',true);
 	update($cd);
 	update($pc);
