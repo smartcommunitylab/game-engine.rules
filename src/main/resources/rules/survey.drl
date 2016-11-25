@@ -1,6 +1,6 @@
 package eu.trentorise.game.model
 
-rule 'ch_final_survey_check'
+rule 'final_survey_check'
 when
 	Action(id == 'survey_complete')
 	$pc : PointConcept(name == "green leaves")
