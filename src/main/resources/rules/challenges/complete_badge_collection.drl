@@ -1,5 +1,11 @@
 package eu.trentorise.game.model
 
+//list any import classes here.
+import eu.trentorise.game.core.Utility;
+
+//declare any global variables here
+global Utility utils;
+
 rule 'ch_complete_badge_collection_check'
 	salience -4000
 when
@@ -7,7 +13,7 @@ when
 	$bc : BadgeCollectionConcept(name == $bcName, $badges : badgeEarned, badgeEarned.size() >= (int)$target)
 	$pc : PointConcept(name == (String) $bonusPointType)
 then
-	log('complete_badge_collection COMPLETED');
+	utils.log('complete_badge_collection COMPLETED');
 	$challenge.completed();
 	$pc.setScore($pc.getScore() + (Double) $bonusScore);
 	update($pc);

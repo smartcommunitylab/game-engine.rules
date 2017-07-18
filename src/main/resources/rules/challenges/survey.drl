@@ -1,12 +1,18 @@
 package eu.trentorise.game.model
 
+//list any import classes here.
+import eu.trentorise.game.core.Utility;
+
+//declare any global variables here
+global Utility utils;
+
 rule 'ch_survey_check'
 when
 	Action(id == 'survey_complete')
 	$challenge : ChallengeConcept( modelName == "survey", $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
 	$pc : PointConcept(name == (String) $bonusPointType)		
 then
-	log('survey COMPLETED');
+	utils.log('survey COMPLETED');
 	$challenge.completed();
 	$pc.setScore($pc.getScore() + (Double) $bonusScore);
 	update($pc);

@@ -1,5 +1,7 @@
 package eu.trentorise.game.model
+import eu.trentorise.game.core.Utility;
 
+global Utility utils;
 global Double walk_min;
 global Double walk_max;
 global Double bike_max;
@@ -17,14 +19,14 @@ then
 	Boolean incremented= new Boolean(false);
 	if($walk!=null){
 	if((Double) $walk >= walk_min){
-		log("apply \'ZeroImpact_Trips update\'");
+		utils.log("apply \'ZeroImpact_Trips update\'");
 		$zeroImpactTrips.setScore($zeroImpactTrips.getScore() + 1.0d);
 		update($zeroImpactTrips);
 		incremented=true;
 		}
 	}
 	if(incremented==false && $bike!=null){
-		log("apply \'ZeroImpact_Trips update\'");
+		utils.log("apply \'ZeroImpact_Trips update\'");
 		$zeroImpactTrips.setScore($zeroImpactTrips.getScore() + 1.0d);
 		update($zeroImpactTrips);
 	}
@@ -37,7 +39,7 @@ when
     $walkTrips : PointConcept(name == "Walk_Trips")
     $walkKm : PointConcept(name == "Walk_Km")
 then
-	log("apply \'Walk_Trips and Walk_Km update\'");
+	utils.log("apply \'Walk_Trips and Walk_Km update\'");
 	$walkTrips.setScore($walkTrips.getScore() + 1.0d);
 	$walkKm.setScore($walkKm.getScore() + (Double) $km);
 	update($walkTrips); 
@@ -56,14 +58,14 @@ when
 then
 	if($bs !=null){
 		if((boolean) $bs == true) {
-			log("apply \'BikeSharing_Trips and BikeSharing_Km update\'");
+			utils.log("apply \'BikeSharing_Trips and BikeSharing_Km update\'");
 			$bsTrips.setScore($bsTrips.getScore() + 1.0d);
 			$bsKm.setScore($bsKm.getScore() + (Double) $km);
 			update($bsTrips); 
 			update($bsKm);
 		} 
 	}
-	log("apply \'Bike_Trips and Bike_Km update\'");
+	utils.log("apply \'Bike_Trips and Bike_Km update\'");
 	$bikeTrips.setScore($bikeTrips.getScore() + 1.0d);
 	$bikeKm.setScore($bikeKm.getScore() + (Double) $km);
 	update($bikeTrips); 
@@ -78,7 +80,7 @@ when
     $busTrips : PointConcept(name == "Bus_Trips")
     $busKm : PointConcept(name == "Bus_Km")
 then
-	log("apply \'Bus_Trips and Bus_Km update\'");
+	utils.log("apply \'Bus_Trips and Bus_Km update\'");
 	$busTrips.setScore($busTrips.getScore() + 1.0d);
 	$busKm.setScore($busKm.getScore() + (Double) $km);
 	update($busTrips); 
@@ -93,7 +95,7 @@ when
     $trainTrips : PointConcept(name == "Train_Trips")
     $trainKm : PointConcept(name == "Train_Km")
 then
-	log("apply \'Train_Trips and Train_Km update\'");
+	utils.log("apply \'Train_Trips and Train_Km update\'");
 	$trainTrips.setScore($trainTrips.getScore() + 1.0d);
 	$trainKm.setScore($trainKm.getScore() + (Double) $km);
 	update($trainTrips); 
@@ -107,7 +109,7 @@ when
     $carTrips : PointConcept(name == "Car_Trips")
     $carKm : PointConcept(name == "Car_Km")
 then
-	log("apply \'Car_Trips and Car_Km update\'");
+	utils.log("apply \'Car_Trips and Car_Km update\'");
 	$carTrips.setScore($carTrips.getScore() + 1.0d);
 	$carKm.setScore($carKm.getScore() + (Double) $km);
 	update($carTrips); 
@@ -139,7 +141,7 @@ then
 	}
 	
 	if (isValidNoCar == true) {
-		log("apply \'NoCar_Trips update\'");
+		utils.log("apply \'NoCar_Trips update\'");
 		$noCarTrips.setScore($noCarTrips.getScore() + 1.0d);
 		update($noCarTrips); 
 	}
@@ -151,7 +153,7 @@ when
 	Action ($id : id == "app_sent_recommandation")
 	$reccomend : PointConcept(name == "Recommendations")
 then
-	log("apply \'Recommendations update\'");
+	utils.log("apply \'Recommendations update\'");
 	$reccomend.setScore($reccomend.getScore() + 1.0d);
 	update($reccomend); 
 end
@@ -162,7 +164,7 @@ when
     InputData( $park : data['park'] != null)
     $PandR : PointConcept(name == "PandR_Trips")
 then
-	log("apply \'PandR_Trips update\'");
+	utils.log("apply \'PandR_Trips update\'");
 	$PandR.setScore($PandR.getScore() + 1.0d);
 	update($PandR);
 end
@@ -173,7 +175,7 @@ when
 	InputData( $km : data["transitDistance"] != null)
     $transitTrips : PointConcept(name == "Transit_Trips")
 then
-	log("apply \'Transit_Trips update\'");
+	utils.log("apply \'Transit_Trips update\'");
 	$transitTrips.setScore($transitTrips.getScore() + 1.0d);
 	update($transitTrips); 
 end

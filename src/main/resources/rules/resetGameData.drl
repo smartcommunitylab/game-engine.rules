@@ -1,6 +1,10 @@
 package eu.trentorise.game.model
 
 //list any import classes here.
+import eu.trentorise.game.core.Utility;
+
+//declare any global variables here
+global Utility utils;
 
 rule "Reset Player"
 salience -2000
@@ -14,18 +18,18 @@ lock-on-active
 		$c: CustomData()
 		
     then
-    	log("resetting player: " + (String)$playerId);
+    	utils.log("resetting player: " + (String)$playerId);
     	if ($pc.getScore() > 0d) {
     		$pc.setScore(0d);
-    		log("reset points " + $pc.getName() + " of player: " + (String)$playerId + " to: " + $pc.getScore());
+    		utils.log("reset points " + $pc.getName() + " of player: " + (String)$playerId + " to: " + $pc.getScore());
     	}
     	if (! $bc.getBadgeEarned().isEmpty()) {
 	    	$bc.getBadgeEarned().clear();
-	    	log("reset badges in " + $bc.getName() + " of player: " + (String)$playerId);
+	    	utils.log("reset badges in " + $bc.getName() + " of player: " + (String)$playerId);
 	    }
 		if (! $c.isEmpty()) {
 	    	$c.clear();
-	    	log("reset Custom Data of player: " + (String)$playerId);
+	    	utils.log("reset Custom Data of player: " + (String)$playerId);
 	    }
 end
 
@@ -37,7 +41,7 @@ when
 	$p : Player($playerId : id)
 	$c : CustomData()
 then
-	log("resetting all past (i.e. periodic) counters to 0 for player" + (String)$playerId);
+	utils.log("resetting all past (i.e. periodic) counters to 0 for player" + (String)$playerId);
 	
 	$c.remove("walk_km_past");
 	$c.remove("bike_km_past");

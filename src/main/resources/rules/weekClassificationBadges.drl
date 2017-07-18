@@ -2,6 +2,11 @@ package eu.trentorise.game.model
 
 import eu.trentorise.game.notification.BadgeNotification;
 import eu.trentorise.game.task.Classification;
+import eu.trentorise.game.core.Utility;
+
+//declare any global variables here
+global Utility utils;
+
 
 /* ***************************************************************************
 GREEN WEEK CLASSIFICATION
@@ -16,7 +21,7 @@ when
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "leaderboard top 3")
 then
-	log("apply \'1st_of_the_week\'");
+	utils.log("apply \'1st_of_the_week\'");
 	if (! $bc.getBadgeEarned().contains("1st_of_the_week")) {
 		$bc.getBadgeEarned().add('1st_of_the_week');
 		update( $bc );
@@ -34,7 +39,7 @@ when
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "leaderboard top 3")
 then
-	log("apply \'2nd_of_the_week\'");
+	utils.log("apply \'2nd_of_the_week\'");
 	if (! $bc.getBadgeEarned().contains("2nd_of_the_week")) {
 		$bc.getBadgeEarned().add('2nd_of_the_week');
 		update( $bc );
@@ -52,7 +57,7 @@ when
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "leaderboard top 3")
 then
-	log("apply \'3rd_of_the_week\'");
+	utils.log("apply \'3rd_of_the_week\'");
 	if (! $bc.getBadgeEarned().contains("3rd_of_the_week")) {
 		$bc.getBadgeEarned().add('3rd_of_the_week');
 		update( $bc );

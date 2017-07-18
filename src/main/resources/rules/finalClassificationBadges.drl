@@ -2,7 +2,10 @@ package eu.trentorise.game.model
 
 import eu.trentorise.game.notification.BadgeNotification;
 import eu.trentorise.game.task.Classification;
+import eu.trentorise.game.core.Utility;
 
+//declare any global variables here
+global Utility utils;
 
 /* ***************************************************************************
 GREEN FINAL CLASSIFICATION
@@ -16,7 +19,7 @@ when
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "green leaves", badgeEarned not contains 'gold-medal-green')
 then
-	log("apply \'gold-medal-green badge\'");
+	utils.log("apply \'gold-medal-green badge\'");
 	$bc.getBadgeEarned().add('gold-medal-green');
 	insert( new BadgeNotification($gameId,$playerId, "green leaves", 'gold-medal-green'));
 	insert ( new BadgeUpdate("gold-medal-green", "green leaves"));
@@ -31,7 +34,7 @@ when
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "green leaves", badgeEarned not contains 'silver-medal-green')
 then
-	log("apply \'silver-medal-green badge\'");
+	utils.log("apply \'silver-medal-green badge\'");
 	$bc.getBadgeEarned().add('silver-medal-green');
 	insert( new BadgeNotification($gameId,$playerId,"green leaves",'silver-medal-green'));
 	insert ( new BadgeUpdate("silver-medal-green", "green leaves"));
@@ -46,7 +49,7 @@ when
     Player( $playerId : id)
     $bc : BadgeCollectionConcept(name == "green leaves", badgeEarned not contains 'bronze-medal-green')
 then
-	log("apply \'bronze-medal-green badge\'");
+	utils.log("apply \'bronze-medal-green badge\'");
 	$bc.getBadgeEarned().add('bronze-medal-green');
 	insert( new BadgeNotification($gameId,$playerId,"green leaves",'bronze-medal-green'));
 	insert ( new BadgeUpdate("bronze-medal-green", "green leaves"));

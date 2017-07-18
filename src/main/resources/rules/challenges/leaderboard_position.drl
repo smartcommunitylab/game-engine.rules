@@ -1,5 +1,11 @@
 package eu.trentorise.game.model
 
+//list any import classes here.
+import eu.trentorise.game.core.Utility;
+
+//declare any global variables here
+global Utility utils;
+
 rule "ch_leaderboard_position"
 no-loop
 	salience -2000
@@ -8,7 +14,7 @@ when
     Classification( name == $weekClassificationName, position >= (Integer)$posMin, position <= (Integer)$posMax)
 	$pc : PointConcept(name == (String) $bonusPointType)
 then
-	log("leaderboard_position COMPLETED");
+	utils.log("leaderboard_position COMPLETED");
 	$challenge.completed();
 	$pc.setScore($pc.getScore() + (Double) $bonusScore);
 	update($pc);

@@ -1,5 +1,11 @@
 package eu.trentorise.game.model
 
+//list any import classes here.
+import eu.trentorise.game.core.Utility;
+
+//declare any global variables here
+global Utility utils;
+
 rule 'ch_percentageIncrement_check'
 	salience -2000
 when
@@ -7,7 +13,7 @@ when
 	$pc1 : PointConcept(name == (String) $counter, $score: score, getPeriodCurrentScore((String)$periodName) >= $target)
 	$pc : PointConcept(name == (String) $bonusPointType)
 then
-	log('percentageIncrement COMPLETED');
+	utils.log('percentageIncrement COMPLETED');
 	$challenge.completed();
 	if ($bonusScore instanceof Long) {
 	     $pc.setScore($pc.getScore() + (Long)$bonusScore );

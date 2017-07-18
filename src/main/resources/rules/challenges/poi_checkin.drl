@@ -1,8 +1,11 @@
 package eu.trentorise.game.model
 
+
 //list any import classes here.
+import eu.trentorise.game.core.Utility;
 
 //declare any global variables here
+global Utility utils;
 
 rule "poiReached_rule"
 lock-on-active
@@ -14,7 +17,7 @@ when
 then
 	$challenge.getFields().put("poiState",(Boolean) true);
 	update($challenge);
-	log("poiReached "+$target);
+	utils.log("poiReached "+$target);
 end
 
 
@@ -28,7 +31,7 @@ when
 then
 	$challenge.getFields().put("eventState", (Boolean) true);
 	update($challenge);
-	log("poiCheckin "+$target);		
+	utils.log("poiCheckin "+$target);		
 end
 
 
@@ -41,7 +44,7 @@ when
 	$pc : PointConcept(name == (String) $bonusPointType)
 then
 	if ((Boolean)$poiState && (Boolean)$eventState) {
-		log('poiCheckin COMPLETED');
+		utils.log('poiCheckin COMPLETED');
 		$challenge.completed();
 		$pc.setScore($pc.getScore() + (Double) $bonusScore);
 		update($pc);
