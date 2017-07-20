@@ -1,5 +1,6 @@
 package eu.trentorise.game.model
 import eu.trentorise.game.core.Utility;
+import eu.trentorise.game.notification.MessageNotification;
 
 global Utility utils;
 
@@ -29,37 +30,133 @@ global Double transit_daily_max;
 global java.util.ArrayList parkings;
 
 
-
-
-
-rule "P&R parkings update green points"
+rule "all modes - update green points"
 when
-	InputData( $park : data["park"] != null, parkings.contains((String)$park))
-	$pc : PointConcept(name == "green leaves")
-then
-	utils.log("apply \'P&R parkings update green points\'");
-	$pc.setScore($pc.getScore() + park_and_ride_points);
-end
-
-rule "cable transit update green points"
-when
-	InputData($transit : data["transitDistance"] !=null )
-	$pc : PointConcept(name == "green leaves")
+	Action ($id : id == "save_itinerary")
+	InputData($travelId : data["travelId"], $bike : data["bikeDistance"], $walk : data["walkDistance"], $bus : data["busDistance"], 
+		$cable : data["transitDistance"], $train : data["trainDistance"], $car : data["carDistance"], $park : data["park"])
+	Game( $gameId: id)
+	Player($playerId : id) 
+	$pc : PointConcept( name == "green leaves")
+	$walkKm : PointConcept(name == "Walk_Km")
+	$bikeKm : PointConcept(name == "Bike_Km")
 	$transitTrips : PointConcept(name == "Transit_Trips")
+	$trainTrips : PointConcept(name == "Train_Trips")
+	$busTrips : PointConcept(name == "Bus_Trips")
 then
-	utils.log("apply \'cable transit update green points\'");
+	utils.log("all modes - update green points");
 	
-	Double transitDaily = $transitTrips.getPeriodCurrentScore("daily");
+	boolean zeroImpact = ($walk != null || $bike != null) && (($bus == null || ((Double)$bus) == 0) 
+		&&  ($car == null || ((Double)$car) == 0) && ($train == null || ((Double)$train) == 0) && ($cable == null || ((Double)$cable) == 0));
 	
-	if (transitDaily < transit_daily_max){
-		$pc.setScore($pc.getScore() + green_transit_points);
+	Double score_zeroImpact = 0.0;
+	Double score = 0.0;
+	
+	//handling of walking Km points
+	if($walk != null){
+		Double walk_daily = $walkKm.getPeriodCurrentScore("daily");
+		utils.log("rule \'all modes - update green points\': counting Walking Km green points");
+		Double walkDistance = $walk != null ? (Double) $walk : 0.0;
+		walkDistance = walkDistance < walk_min ? 0.0 : walkDistance;
+		//walkDistance = walkDistance > walk_max ? walk_max : walkDistance;
+		walkDistance = (walk_daily + walkDistance) > walk_daily_max ? (walk_daily_max - walk_daily) : walkDistance;
+		score = score + (walkDistance * green_walk_points);
 	}
-	else{
-		utils.log("reached daily limit for transit trips (cable)");
+	
+	//handling of bike Km points
+	if($bike != null){
+		Double bike_daily = $bikeKm.getPeriodCurrentScore("daily");
+		utils.log("rule \'all modes - update green points\': counting Bike Km green points");
+		Double bikeDistance = $bike != null ? (Double) $bike : 0.0;
+		//bikeDistance = bikeDistance > bike_max ? bike_max : bikeDistance;
+		bikeDistance = (bike_daily + bikeDistance) > bike_daily_max ? (bike_daily_max - bike_daily) : bikeDistance;
+		
+		score = score  + (bikeDistance * green_bike_points);
 	}
+	
+	//handling of zero impact points
+	if (zeroImpact)
+		score_zeroImpact = zero_impact_booster * score;	
+	
+	//handling of P&R points
+	if($park != null && parkings.contains((String)$park)){
+		utils.log("rule \'all modes - update green points\': counting P&R green points");
+		score = score + park_and_ride_points;
+	}
+	
+	//handling of cable/transit points
+	if($cable!=null){
+		Double transitDaily = $transitTrips.getPeriodCurrentScore("daily");
+		utils.log("rule \'all modes - update green points\': counting Cable-Transit green points");
+		if (transitDaily < transit_daily_max){
+			score = score + green_transit_points;
+		}
+		else{
+			utils.log("rule \'all modes - update green points\': Reached daily limit for transit trips (cable)");
+		}
+	}
+	
+	
+	//handling of PT points	
+	if($bus!=null || $train!=null ){
+		utils.log("rule \'all modes - update green points\': counting PT green points");
+	
+		Double busDistance = ($bus == null) ? 0d : (Double)$bus;
+		Double trainDistance = ($train == null) ? 0d :(Double)$train;
+		
+		Double busPoints = 0.0;
+		Double trainPoints = 0.0;
+		
+		Double ptPoints = 0.0;
+		
+		Double ptDaily = $busTrips.getPeriodCurrentScore("daily") + $trainTrips.getPeriodCurrentScore("daily");
+		
+		if (ptDaily < pt_daily_max){
+			if ($bus != null){ 
+				if (busDistance >= bus_threshold_step0 && busDistance < bus_threshold_step1)
+					busPoints = green_bus_points_step0;
+				else if (busDistance >= bus_threshold_step1)
+					busPoints = green_bus_points_step1;
+				else
+					busPoints = green_bus_points_base;
+			}
+			
+			if ($train != null){
+				if (trainDistance >= bus_threshold_step0 && trainDistance < bus_threshold_step1)
+					trainPoints = green_bus_points_step0;
+				else if (trainDistance >= bus_threshold_step1)
+					trainPoints = green_bus_points_step1;
+				else
+					trainPoints = green_bus_points_base;
+			}
+			
+			if($bus!=null && $train!=null && (ptDaily >= (pt_daily_max -1))){
+			//double PT trip and reached limit -> need to count only 1 PT trip (we count the MAX)
+				ptPoints = busPoints > trainPoints ? busPoints : trainPoints;
+			}
+			else ptPoints = busPoints + trainPoints;
+				
+		}
+		else{
+			utils.log("rule \'all modes - update green points\': Reached daily limit for public transport trips");
+			ptPoints = 0.0;
+		}
+			
+		score = score + ptPoints;
+	}
+	
+	MessageNotification mn = new MessageNotification($gameId,$playerId,null);
+	mn.addData("travelId", $travelId);
+	mn.addData("score", score);
+	insert(mn);
+	
+	$pc.setScore($pc.getScore() + (Double) Math.rint(score + score_zeroImpact));
+	update($pc);
+
 end
 
-rule "public transport update green points"
+
+/*rule "public transport update green points"
 when
 	InputData($bus : data["busDistance"] !=null || $train : data["trainDistance"] != null )
 	$pc : PointConcept(name == "green leaves")
@@ -94,45 +191,7 @@ then
 	
 	update($pc); 
 end
-
-rule "0-impact - sustainable - walk - bike - update green points"
-when
-	Action ($id : id == "save_itinerary")
-	InputData($bike : data["bikeDistance"], $walk : data["walkDistance"], $bus : data["busDistance"], 
-		$cable : data["transitDistance"], $train : data["trainDistance"], $car : data["carDistance"])
-	$pc : PointConcept( name == "green leaves")
-	$walkKm : PointConcept(name == "Walk_Km")
-	$bikeKm : PointConcept(name == "Bike_Km")
-then
-	utils.log("apply \'0-impact - sustainable - walk - bike - update green points\'");
-	boolean zeroImpact = ($walk != null || $bike != null) && (($bus == null || ((Double)$bus) == 0) 
-		&&  ($car == null || ((Double)$car) == 0) && ($train == null || ((Double)$train) == 0) && ($cable == null || ((Double)$cable) == 0));
-	
-	Double score_zeroImpact = 0.0;
-	
-	Double walk_daily = $walkKm.getPeriodCurrentScore("daily");
-	
-	Double walkDistance = $walk != null ? (Double) $walk : 0.0;
-	walkDistance = walkDistance < walk_min ? 0.0 : walkDistance;
-	//walkDistance = walkDistance > walk_max ? walk_max : walkDistance;
-	walkDistance = (walk_daily + walkDistance) > walk_daily_max ? (walk_daily_max - walk_daily) : walkDistance;
-	
-	Double bike_daily = $bikeKm.getPeriodCurrentScore("daily");
-	
-	Double bikeDistance = $bike != null ? (Double) $bike : 0.0;
-	//bikeDistance = bikeDistance > bike_max ? bike_max : bikeDistance;
-	bikeDistance = (bike_daily + bikeDistance) > bike_daily_max ? (bike_daily_max - bike_daily) : bikeDistance;
-	
-	Double score = (walkDistance * green_walk_points)  + (bikeDistance * green_bike_points);
-	
-	if (zeroImpact)
-		score_zeroImpact = zero_impact_booster * score;	
- 	
-	$pc.setScore($pc.getScore() + (Double) Math.rint(score + score_zeroImpact));
-	update($pc);
-
-end
-
+*/
 
 rule "recommendation bonus"
 	salience 1
