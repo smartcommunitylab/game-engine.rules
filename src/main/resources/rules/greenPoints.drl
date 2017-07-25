@@ -147,10 +147,11 @@ then
 	
 	MessageNotification mn = new MessageNotification($gameId,$playerId,null);
 	mn.addData("travelId", $travelId);
+	score = (Double) Math.rint(score + score_zeroImpact);
 	mn.addData("score", score);
 	insert(mn);
 	
-	$pc.setScore($pc.getScore() + (Double) Math.rint(score + score_zeroImpact));
+	$pc.setScore($pc.getScore() + score);
 	update($pc);
 
 end
