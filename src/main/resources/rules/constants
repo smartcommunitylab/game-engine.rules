@@ -20,9 +20,9 @@
 green_Trento_Fiera_registration_points=100.0
 
 # GREEN POINTS for Walk, Bike, BikeSharing
-green_walk_points=15.0
-green_bike_points=7.0
-zero_impact_booster=0.0
+green_walk_points=10.0
+green_bike_points=5.0
+zero_impact_booster=0.5
 recommendation_bonus=20.0
 
 #GREEN POINTS for public transport (BOTH bus AND train)
@@ -44,9 +44,9 @@ walk_min=0.25
 //walk_max=3.5
 //bike_max=7.0
 walk_daily_max=10.0
-bike_daily_max=20.0
-pt_daily_max=10.0
+bike_daily_max=30.0
+pt_daily_max=8.0
 transit_daily_max=4.0
 
 #P&R locations in Trento
-parkings=Via Asiago\, Stazione FS Villazzano, Ex-Zuffo, Monte Baldo, Via Lidorno, Ghiaie via Fersina, Via Ragazzi del '99
+parkings=Via Asiago\, Stazione FS Villazzano, Ex-Zuffo, Monte Baldo, Via Lidorno, Ghiaie via Fersina, Via Ragazzi del '99, Parcheggio Centro, Municipio
