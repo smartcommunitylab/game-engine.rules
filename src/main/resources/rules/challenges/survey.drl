@@ -8,8 +8,8 @@ global Utility utils;
 
 rule 'ch_init_survey_check'
 when
-	Action(id == 'init_survey_complete')
-	$challenge : ChallengeConcept( modelName == "survey", $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
+	Action(id == 'start_survey_complete')
+	$challenge : ChallengeConcept( modelName == "survey", $surveyType : fields["surveyType"] == "start", $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
 	$pc : PointConcept(name == (String) $bonusPointType)		
 then
 	utils.log('Initial survey COMPLETED');
@@ -21,8 +21,8 @@ end
 
 rule 'ch_final_survey_check'
 when
-	Action(id == 'final_survey_complete')
-	$challenge : ChallengeConcept( modelName == "survey", $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
+	Action(id == 'end_survey_complete')
+	$challenge : ChallengeConcept( modelName == "survey", $surveyType : fields["surveyType"] == "end", $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
 	$pc : PointConcept(name == (String) $bonusPointType)		
 then
 	utils.log('Final survey COMPLETED');
