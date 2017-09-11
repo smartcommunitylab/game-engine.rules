@@ -1,0 +1,37 @@
+package eu.trentorise.game.model
+
+//list any import classes here.
+import eu.trentorise.game.core.Utility;
+
+//declare any global variables here
+global Utility utils;
+
+rule 'biciclettata_tn_checkin'
+when
+	Action(id == 'checkin_biciclettata_tn')
+	$challenge : ChallengeConcept( modelName == "checkin", $surveyType : fields["checkinType"], $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
+	$pc : PointConcept(name == (String) $bonusPointType)		
+then
+	if($surveyType = "biciclettata_tn"){
+		utils.log('Biciclettata Tn - Check in DONE');
+		$challenge.completed();
+		$pc.setScore($pc.getScore() + (Double) $bonusScore);
+		update($pc);
+		update($challenge);
+	}
+end
+
+rule 'biciclettata_rov_checkin'
+when
+	Action(id == 'checkin_biciclettata_rov')
+	$challenge : ChallengeConcept( modelName == "checkin", $surveyType : fields["checkinType"], $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
+	$pc : PointConcept(name == (String) $bonusPointType)		
+then
+	if($surveyType = "biciclettata_rov"){
+		utils.log('Biciclettata Rov - Check in DONE');
+		$challenge.completed();
+		$pc.setScore($pc.getScore() + (Double) $bonusScore);
+		update($pc);
+		update($challenge);
+	}
+end
