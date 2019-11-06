@@ -52,3 +52,18 @@ then
 		update($challenge);
 	}
 end
+
+rule 'ch_challenge_survey_check'
+when
+	Action(id == 'challenge_survey_complete')
+	$challenge : ChallengeConcept( modelName == "survey", $surveyType : fields["surveyType"], $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
+	$pc : PointConcept(name == (String) $bonusPointType)		
+then
+	if("challenge".equals($surveyType)){
+		utils.log('Challenge survey COMPLETED');
+		$challenge.completed();
+		$pc.setScore($pc.getScore() + (Double) $bonusScore);
+		update($pc);
+		update($challenge);
+	}
+end
