@@ -53,6 +53,21 @@ then
 	}
 end
 
+rule 'ch_prediction_survey_check'
+when
+	Action(id == 'prediction_survey_complete')
+	$challenge : ChallengeConcept( modelName == "survey", $surveyType : fields["surveyType"], $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
+	$pc : PointConcept(name == (String) $bonusPointType)		
+then
+	if("prediction".equals($surveyType)){
+		utils.log('Prediction survey COMPLETED');
+		$challenge.completed();
+		$pc.setScore($pc.getScore() + (Double) $bonusScore);
+		update($pc);
+		update($challenge);
+	}
+end
+
 rule 'ch_challenge_survey_check'
 when
 	Action(id == 'challenge_survey_complete')
