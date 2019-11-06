@@ -65,5 +65,3 @@ then
 	insert( new BadgeNotification($gameId,$playerId,"leaderboard top 3",'3rd_of_the_week'));
 	insert( new BadgeUpdate("3rd_of_the_week", "leaderboard top 3"));	
 end
-    
-    

@@ -167,4 +167,3 @@ then
 	insert ( new BadgeUpdate("20000_point_green", "green leaves"));
 	update( $bc );
 end
-

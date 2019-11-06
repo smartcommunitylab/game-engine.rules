@@ -12,7 +12,8 @@ when
 	$challenge : ChallengeConcept( modelName == "survey", $surveyType : fields["surveyType"], $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
 	$pc : PointConcept(name == (String) $bonusPointType)		
 then
-	if($surveyType = "start"){
+        utils.log("inside start survey check");
+	if("start".equals($surveyType)){
 		utils.log('Initial survey COMPLETED');
 		$challenge.completed();
 		$pc.setScore($pc.getScore() + (Double) $bonusScore);
@@ -27,7 +28,23 @@ when
 	$challenge : ChallengeConcept( modelName == "survey", $surveyType : fields["surveyType"], $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
 	$pc : PointConcept(name == (String) $bonusPointType)		
 then
-	if($surveyType = "end"){
+	if("end".equals($surveyType)){
+		utils.log('Final survey COMPLETED');
+		$challenge.completed();
+		$pc.setScore($pc.getScore() + (Double) $bonusScore);
+		update($pc);
+		update($challenge);
+	}
+end
+
+
+rule 'ch_last_survey_check'
+when
+	Action(id == 'last_survey_complete')
+	$challenge : ChallengeConcept( modelName == "survey", $surveyType : fields["surveyType"], $bonusPointType : fields["bonusPointType"], $bonusScore : fields["bonusScore"], isCompleted() != true )	
+	$pc : PointConcept(name == (String) $bonusPointType)		
+then
+	if("last".equals($surveyType)){
 		utils.log('Final survey COMPLETED');
 		$challenge.completed();
 		$pc.setScore($pc.getScore() + (Double) $bonusScore);

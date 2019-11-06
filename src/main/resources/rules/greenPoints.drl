@@ -57,9 +57,19 @@ then
 		Double walk_daily = $walkKm.getPeriodCurrentScore("daily");
 		utils.log("rule \'all modes - update green points\': counting Walking Km green points");
 		Double walkDistance = $walk != null ? (Double) $walk : 0.0;
-		walkDistance = walkDistance < walk_min ? 0.0 : walkDistance;
-		//walkDistance = walkDistance > walk_max ? walk_max : walkDistance;
-		walkDistance = (walk_daily + walkDistance) > walk_daily_max ? (walk_daily_max - walk_daily) : walkDistance;
+		if(walkDistance < walk_min){
+			walkDistance = 0.0;
+			utils.log("rule \'all modes - update green points\': WALK KM < 250m");
+		}
+		else{
+			if(walk_daily >= walk_daily_max){
+				utils.log("rule \'all modes - update green points\': REACHED DAILY LIMIT for WALK KM");
+				walkDistance = 0.0;
+			}
+			else{
+				walkDistance = (walk_daily + walkDistance) > walk_daily_max ? (walk_daily_max - walk_daily) : walkDistance;
+			}
+		}
 		score = score + (walkDistance * green_walk_points);
 	}
 	
@@ -69,8 +79,15 @@ then
 		utils.log("rule \'all modes - update green points\': counting Bike Km green points");
 		Double bikeDistance = $bike != null ? (Double) $bike : 0.0;
 		//bikeDistance = bikeDistance > bike_max ? bike_max : bikeDistance;
-		bikeDistance = (bike_daily + bikeDistance) > bike_daily_max ? (bike_daily_max - bike_daily) : bikeDistance;
 		
+		if(bike_daily >= bike_daily_max){
+			utils.log("rule \'all modes - update green points\': REACHED DAILY LIMIT for BIKE KM");
+			bikeDistance = 0.0;
+		}
+		else{
+			bikeDistance = (bike_daily + bikeDistance) > bike_daily_max ? (bike_daily_max - bike_daily) : bikeDistance;
+		}
+				
 		score = score  + (bikeDistance * green_bike_points);
 	}
 	

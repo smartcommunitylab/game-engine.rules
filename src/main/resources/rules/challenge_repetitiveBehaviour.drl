@@ -29,7 +29,7 @@ function Double numberOfActivePeriods(PointConcept pc, Double target, String pNa
 		if(s >= target)
 			activePeriods++;
 		i--;	
-    pi = pc.getPeriodInstance(pName, i);
+                pi = pc.getPeriodInstance(pName, i);
 	}
 	
 	return activePeriods;
@@ -71,5 +71,13 @@ rule "repetitiveBehaviour"
 		
 		update($pcBonus);
 		update($c);
-      
+        
+        //System notification ??
+		/*ChallengeCompletedNotication ccn = new ChallengeCompletedNotication();
+		ccn.setGameId($gameId);
+		ccn.setPlayerId($playerId);
+		ccn.setTimestamp($c.getDateCompleted().getTime());
+		ccn.setChallengeName($c.getName());
+		insert(ccn);*/
+		
 end
