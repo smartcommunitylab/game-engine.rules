@@ -79,8 +79,8 @@ function double getScore(String mode, double distance) {
 
 function double tripScore(double modeDaily, double tripDistance, String mode) {
 	double beforeTripDistance = modeDaily - tripDistance;
-	double oldModeDailyScore = getScore(mode, beforeTripDistance);
-	double newModeDailyScore = getScore(mode, modeDaily);
+	double oldModeDailyScore = Math.rint(getScore(mode, beforeTripDistance));
+	double newModeDailyScore = Math.rint(getScore(mode, modeDaily));
 	double gainedScore = newModeDailyScore - oldModeDailyScore;
 	return gainedScore; 
 }
@@ -166,9 +166,6 @@ then
 		utils.log("daily Km: " + modeDaily);
 		score += gainedScore;
 	}
-	
-	score = (Double) Math.rint(score);
-	
 	
 	MessageNotification mn = new MessageNotification($gameId,$playerId,null);
 	mn.addData("travelId", $travelId);
