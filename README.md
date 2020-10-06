@@ -13,6 +13,7 @@ This project is a [Drools](https://github.com/droolsjbpm/drools) project and can
 * [long-game-trento](https://github.com/smartcommunitylab/game-engine.rules/releases/tag/long-game-trento_branch)
 * [play and go 2017](https://github.com/smartcommunitylab/game-engine.rules/releases/tag/playAndGo-2017)
 * [play and go 2018](https://github.com/smartcommunitylab/game-engine.rules/releases/tag/playAndGo-2018)
+* [play and go 2019](https://github.com/smartcommunitylab/game-engine.rules/releases/tag/playAndGo-2019)
 
 
 
